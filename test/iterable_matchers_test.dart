@@ -162,6 +162,12 @@ void main() {
         "Actual: [0, 1, 0, 2] "
         "Which: did not find a value matching <3> following expected prior "
         "values");
+    shouldFail(
+        1,
+        containsAllInOrder([1]),
+        "Expected: contains in order([1]) "
+        "Actual: <1> "
+        "Which: not an iterable");
   });
 
   test('pairwise compare', () {

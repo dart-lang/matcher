@@ -267,6 +267,9 @@ class _PairwiseCompare extends _IterableMatcher {
 /// Matches [Iterable]s which contain an element matching every value in
 /// [expected] in the same order, but may contain additional values interleaved
 /// throughout.
+///
+/// For example: `[0, 1, 0, 2, 0]` matches `containsAllInOrder([1, 2])` but not
+/// `containsAllInOrder([2, 1])` or `containsAllInOrder([1, 2, 3])`.
 Matcher containsAllInOrder(Iterable expected) =>
     new _ContainsAllInOrder(expected);
 
@@ -276,7 +279,7 @@ class _ContainsAllInOrder implements Matcher {
   _ContainsAllInOrder(this._expected);
 
   String _test(item, Map matchState) {
-    if (item is! Iterable) return 'not iterable';
+    if (item is! Iterable) return 'not an iterable';
     var matchers = _expected.map(wrapMatcher).toList();
     var matcherIndex = 0;
     for (var value in item) {
