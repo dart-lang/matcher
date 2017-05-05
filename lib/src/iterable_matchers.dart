@@ -264,9 +264,9 @@ class _PairwiseCompare extends _IterableMatcher {
   }
 }
 
-/// Returns a matcher which matches [Iterable]s which contain an element
-/// matching every value in [expected] in the same order, but may contain
-/// additional values interleaved throughout.
+/// Matches [Iterable]s which contain an element matching every value in
+/// [expected] in the same order, but may contain additional values interleaved
+/// throughout.
 Matcher containsAllInOrder(Iterable expected) =>
     new _ContainsAllInOrder(expected);
 
