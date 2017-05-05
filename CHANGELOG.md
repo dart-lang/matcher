@@ -1,4 +1,4 @@
-## 0.12.0+3
+## 0.12.1
 
 * Add containsAllInOrder matcher for Iterables
 
