@@ -646,6 +646,10 @@ class CustomMatcher extends Matcher {
 
     _matcher.describeMismatch(
       matchState['feature'], innerDescription, matchState['state'], verbose);
+
+    if (innerDescription.length > 0) {
+      mismatchDescription.add(' which ').add(innerDescription.toString());
+    }
     return mismatchDescription;
   }
 }
