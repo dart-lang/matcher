@@ -261,7 +261,7 @@ class _DeepMatcher extends Matcher {
 
   Description describeMismatch(
       item, Description mismatchDescription, Map matchState, bool verbose) {
-    var reason = matchState['reason'];
+    var reason = matchState['reason'] != null ? matchState['reason'] : '';
     // If we didn't get a good reason, that would normally be a
     // simple 'is <value>' message. We only add that if the mismatch
     // description is non empty (so we are supplementing the mismatch
@@ -614,9 +614,13 @@ class CustomMatcher extends Matcher {
   featureValueOf(actual) => actual;
 
   bool matches(item, Map matchState) {
-    var f = featureValueOf(item);
-    if (_matcher.matches(f, matchState)) return true;
-    addStateInfo(matchState, {'feature': f});
+    try {
+      var f = featureValueOf(item);
+      if (_matcher.matches(f, matchState)) return true;
+      addStateInfo(matchState, {'feature': f});
+    } catch (e, s) {
+      addStateInfo(matchState, {'exception': e, 'stack': s});
+    }
     return false;
   }
 
@@ -625,17 +629,23 @@ class CustomMatcher extends Matcher {
 
   Description describeMismatch(
       item, Description mismatchDescription, Map matchState, bool verbose) {
+    if (matchState['exception'] != null) {
+      mismatchDescription.add('threw ').addDescriptionOf(matchState['exception']);
+      if (verbose) {
+        mismatchDescription.add(' at ').add(matchState['stack'].toString());
+      }
+      return mismatchDescription;
+    }
+
     mismatchDescription
         .add('has ')
         .add(_featureName)
         .add(' with value ')
         .addDescriptionOf(matchState['feature']);
     var innerDescription = new StringDescription();
+
     _matcher.describeMismatch(
-        matchState['feature'], innerDescription, matchState['state'], verbose);
-    if (innerDescription.length > 0) {
-      mismatchDescription.add(' which ').add(innerDescription.toString());
-    }
+      matchState['feature'], innerDescription, matchState['state'], verbose);
     return mismatchDescription;
   }
 }
