@@ -7,6 +7,7 @@ export 'src/core_matchers.dart';
 export 'src/description.dart';
 export 'src/error_matchers.dart';
 export 'src/interfaces.dart';
+export 'src/invocation_matchers.dart';
 export 'src/iterable_matchers.dart';
 export 'src/map_matchers.dart';
 export 'src/numeric_matchers.dart';
