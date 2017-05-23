@@ -617,9 +617,9 @@ class CustomMatcher extends Matcher {
     try {
       var f = featureValueOf(item);
       if (_matcher.matches(f, matchState)) return true;
-      addStateInfo(matchState, {'feature': f});
+      addStateInfo(matchState, {'custom.feature': f});
     } catch (e, s) {
-      addStateInfo(matchState, {'exception': e, 'stack': s});
+      addStateInfo(matchState, {'custom.exception': e, 'stack': s});
     }
     return false;
   }
@@ -629,11 +629,12 @@ class CustomMatcher extends Matcher {
 
   Description describeMismatch(
       item, Description mismatchDescription, Map matchState, bool verbose) {
-    if (matchState['exception'] != null) {
-      mismatchDescription.add('threw ').addDescriptionOf(matchState['exception']);
-      if (verbose) {
-        mismatchDescription.add(' at ').add(matchState['stack'].toString());
-      }
+    if (matchState['custom.exception'] != null) {
+      mismatchDescription
+          .add('threw ')
+          .addDescriptionOf(matchState['custom.exception'])
+          .add('\n')
+          .add(matchState['stack'].toString());
       return mismatchDescription;
     }
 
@@ -641,11 +642,11 @@ class CustomMatcher extends Matcher {
         .add('has ')
         .add(_featureName)
         .add(' with value ')
-        .addDescriptionOf(matchState['feature']);
+        .addDescriptionOf(matchState['custom.feature']);
     var innerDescription = new StringDescription();
 
-    _matcher.describeMismatch(
-      matchState['feature'], innerDescription, matchState['state'], verbose);
+    _matcher.describeMismatch(matchState['custom.feature'], innerDescription,
+        matchState['state'], verbose);
 
     if (innerDescription.length > 0) {
       mismatchDescription.add(' which ').add(innerDescription.toString());
