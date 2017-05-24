@@ -4,6 +4,8 @@
 
 import 'package:matcher/matcher.dart';
 import 'package:test/test.dart' show test, group;
+import 'dart:io' show Platform;
+import "package:path/path.dart" show dirname;
 
 import 'test_utils.dart';
 
@@ -244,52 +246,56 @@ void main() {
   });
 
   test("Custom Matcher Exception", () {
+    var script_path = Platform.script.toString();
+    var test_dir = dirname(script_path);
     shouldFail(
         "a",
         new BadCustomMatcher(),
-        "Expected: feature {1: 'a'}\n"
-        "Actual: 'a'\n"
-        "Which: threw ?:<Exception: bang>\n"
-        "#0      BadCustomMatcher.featureValueOf (file:///Users/kzhao/repo/matcher/test/core_matchers_test.dart:13:29)\n"
-        "#1      CustomMatcher.matches (package:matcher/src/core_matchers.dart:618:15)\n"
-        "#2      _expect (package:test/src/frontend/expect.dart:154:17)\n"
-        "#3      expect (package:test/src/frontend/expect.dart:68:3)\n"
-        "#4      shouldFail (file:///Users/kzhao/repo/matcher/test/test_utils.dart:10:5)\n"
-        "#5      main.<anonymous closure> (file:///Users/kzhao/repo/matcher/test/core_matchers_test.dart:247:5)\n"
-        "#6      Declarer.test.<anonymous closure>.<anonymous closure> (package:test/src/backend/declarer.dart:131:19)\n"
-        "<asynchronous suspension>\n"
-        "#7      Invoker.waitForOutstandingCallbacks.<anonymous closure>.<anonymous closure> (package:test/src/backend/invoker.dart:204:17)\n"
-        "<asynchronous suspension>\n"
-        "#8      _rootRun (dart:async/zone.dart:1120)\n"
-        "#9      _CustomZone.run (dart:async/zone.dart:1001)\n"
-        "#10     _CustomZone.runGuarded (dart:async/zone.dart:901)\n"
-        "#11     runZoned (dart:async/zone.dart:1465)\n"
-        "#12     Invoker.waitForOutstandingCallbacks.<anonymous closure> (package:test/src/backend/invoker.dart:201:7)\n"
-        "#13     _rootRun (dart:async/zone.dart:1120)\n"
-        "#14     _CustomZone.run (dart:async/zone.dart:1001)\n"
-        "#15     runZoned (dart:async/zone.dart:1467)\n"
-        "#16     Invoker.waitForOutstandingCallbacks (package:test/src/backend/invoker.dart:200:5)\n"
-        "#17     Declarer.test.<anonymous closure> (package:test/src/backend/declarer.dart:129:29)\n"
-        "<asynchronous suspension>\n"
-        "#18     Invoker._onRun.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:test/src/backend/invoker.dart:342:23)\n"
-        "<asynchronous suspension>\n"
-        "#19     new Future.<anonymous closure> (dart:async/future.dart:158)\n"
-        "#20     StackZoneSpecification._run (package:stack_trace/src/stack_zone_specification.dart:187:15)\n"
-        "#21     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:99:48)\n"
-        "#22     _rootRun (dart:async/zone.dart:1116)\n"
-        "#23     _CustomZone.run (dart:async/zone.dart:1001)\n"
-        "#24     _CustomZone.runGuarded (dart:async/zone.dart:901)\n"
-        "#25     _CustomZone.bindCallback.<anonymous closure> (dart:async/zone.dart:926)\n"
-        "#26     StackZoneSpecification._run (package:stack_trace/src/stack_zone_specification.dart:187:15)\n"
-        "#27     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:99:48)\n"
-        "#28     _rootRun (dart:async/zone.dart:1120)\n"
-        "#29     _CustomZone.run (dart:async/zone.dart:1001)\n"
-        "#30     _CustomZone.runGuarded (dart:async/zone.dart:901)\n"
-        "#31     _CustomZone.bindCallback.<anonymous closure> (dart:async/zone.dart:926)\n"
-        "#32     Timer._createTimer.<anonymous closure> (dart:async-patch/timer_patch.dart:21)\n"
-        "#33     _Timer._runTimers (dart:isolate-patch/timer_impl.dart:366)\n"
-        "#34     _Timer._handleMessage (dart:isolate-patch/timer_impl.dart:394)\n"
-        "#35     _RawReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:151)\n"
+        "Expected: feature {1: 'a'}"
+        "  Actual: 'a'"
+        "    Which: threw ?:<Exception: bang>"
+        "           #0      BadCustomMatcher.featureValueOf ($script_path:15:29)"
+        "           #1      CustomMatcher.matches (package:matcher/src/core_matchers.dart:618:15)"
+        "           #2      _expect (package:test/src/frontend/expect.dart:154:17)"
+        "           #3      expect (package:test/src/frontend/expect.dart:68:3)"
+        "           #4      shouldFail ($test_dir/test_utils.dart:10:5)"
+        "           #5      main.<anonymous closure> ($script_path:251:5)"
+        "           "
+        "           #6      Declarer.test.<anonymous closure>.<anonymous closure> (package:test/src/backend/declarer.dart:131:19)"
+        "           <asynchronous suspension>"
+        "           #7      Invoker.waitForOutstandingCallbacks.<anonymous closure>.<anonymous closure> (package:test/src/backend/invoker.dart:204:17)"
+        "           <asynchronous suspension>"
+        "           #8      _rootRun (dart:async/zone.dart:1120)"
+        "           #9      _CustomZone.run (dart:async/zone.dart:1001)"
+        "           #10     _CustomZone.runGuarded (dart:async/zone.dart:901)"
+        "           #11     runZoned (dart:async/zone.dart:1465)"
+        "           #12     Invoker.waitForOutstandingCallbacks.<anonymous closure> (package:test/src/backend/invoker.dart:201:7)"
+        "           #13     _rootRun (dart:async/zone.dart:1120)"
+        "           #14     _CustomZone.run (dart:async/zone.dart:1001)"
+        "           #15     runZoned (dart:async/zone.dart:1467)"
+        "           #16     Invoker.waitForOutstandingCallbacks (package:test/src/backend/invoker.dart:200:5)"
+        "           #17     Declarer.test.<anonymous closure> (package:test/src/backend/declarer.dart:129:29)"
+        "           <asynchronous suspension>"
+        "           #18     Invoker._onRun.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:test/src/backend/invoker.dart:342:23)"
+        "           <asynchronous suspension>"
+        "           #19     new Future.<anonymous closure> (dart:async/future.dart:158)"
+        "           #20     StackZoneSpecification._run (package:stack_trace/src/stack_zone_specification.dart:187:15)"
+        "           #21     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:99:48)"
+        "           #22     _rootRun (dart:async/zone.dart:1116)"
+        "           #23     _CustomZone.run (dart:async/zone.dart:1001)"
+        "           #24     _CustomZone.runGuarded (dart:async/zone.dart:901)"
+        "           #25     _CustomZone.bindCallback.<anonymous closure> (dart:async/zone.dart:926)"
+        "           #26     StackZoneSpecification._run (package:stack_trace/src/stack_zone_specification.dart:187:15)"
+        "           #27     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:99:48)"
+        "           #28     _rootRun (dart:async/zone.dart:1120)"
+        "           #29     _CustomZone.run (dart:async/zone.dart:1001)"
+        "           #30     _CustomZone.runGuarded (dart:async/zone.dart:901)"
+        "           #31     _CustomZone.bindCallback.<anonymous closure> (dart:async/zone.dart:926)"
+        "           #32     Timer._createTimer.<anonymous closure> (dart:async-patch/timer_patch.dart:21)"
+        "           #33     _Timer._runTimers (dart:isolate-patch/timer_impl.dart:366)"
+        "           #34     _Timer._handleMessage (dart:isolate-patch/timer_impl.dart:394)"
+        "           #35     _RawReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:151)"
+        "           "
     );
   });
 }

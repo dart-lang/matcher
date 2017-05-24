@@ -619,7 +619,7 @@ class CustomMatcher extends Matcher {
       if (_matcher.matches(f, matchState)) return true;
       addStateInfo(matchState, {'custom.feature': f});
     } catch (e, s) {
-      addStateInfo(matchState, {'custom.exception': e, 'stack': s});
+      addStateInfo(matchState, {'custom.exception': e, 'custom.stack': s});
     }
     return false;
   }
@@ -634,7 +634,7 @@ class CustomMatcher extends Matcher {
           .add('threw ')
           .addDescriptionOf(matchState['custom.exception'])
           .add('\n')
-          .add(matchState['stack'].toString());
+          .add(matchState['custom.stack'].toString());
       return mismatchDescription;
     }
 
