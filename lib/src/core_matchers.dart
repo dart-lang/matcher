@@ -5,6 +5,7 @@
 import 'description.dart';
 import 'interfaces.dart';
 import 'util.dart';
+import 'package:stack_trace/stack_trace.dart';
 
 /// Returns a matcher that matches the isEmpty property.
 const Matcher isEmpty = const _Empty();
@@ -614,14 +615,21 @@ class CustomMatcher extends Matcher {
   featureValueOf(actual) => actual;
 
   bool matches(item, Map matchState) {
-    try {
+    bool rt = false;
+    Chain.capture(() {
       var f = featureValueOf(item);
-      if (_matcher.matches(f, matchState)) return true;
+      if (_matcher.matches(f, matchState)) {
+        rt = true;
+        return;
+      }
       addStateInfo(matchState, {'custom.feature': f});
-    } catch (e, s) {
-      addStateInfo(matchState, {'custom.exception': e, 'custom.stack': s});
-    }
-    return false;
+    }, onError: (error, stackChain) {
+      addStateInfo(matchState, {
+        'custom.exception': error.toString(),
+        'custom.stack': stackChain.toString()
+      });
+    });
+    return rt;
   }
 
   Description describe(Description description) =>
