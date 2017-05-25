@@ -615,21 +615,19 @@ class CustomMatcher extends Matcher {
   featureValueOf(actual) => actual;
 
   bool matches(item, Map matchState) {
-    bool rt = false;
-    Chain.capture(() {
+    try {
       var f = featureValueOf(item);
       if (_matcher.matches(f, matchState)) {
-        rt = true;
-        return;
+        return true;
       }
       addStateInfo(matchState, {'custom.feature': f});
-    }, onError: (error, stackChain) {
+    } catch (exception, stack)  {
       addStateInfo(matchState, {
-        'custom.exception': error.toString(),
-        'custom.stack': stackChain.toString()
+        'custom.exception': exception.toString(),
+        'custom.stack': new Chain.forTrace(stack).terse.toString()
       });
-    });
-    return rt;
+    }
+    return false;
   }
 
   Description describe(Description description) =>
