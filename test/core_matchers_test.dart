@@ -7,9 +7,8 @@ import 'package:test/test.dart' show test, group;
 
 import 'test_utils.dart';
 
-class BadCustomMatcher extends CustomMatcher
-{
-  BadCustomMatcher(): super("feature", "description", {1: "a"});
+class BadCustomMatcher extends CustomMatcher {
+  BadCustomMatcher() : super("feature", "description", {1: "a"});
   featureValueOf(actual) => throw new Exception("bang");
 }
 
@@ -247,23 +246,12 @@ void main() {
     shouldFail(
         "a",
         new BadCustomMatcher(),
-        "Expected: feature {1: 'a'} "
-        "Actual: 'a' "
-        "Which: threw 'Exception: bang' "
-        "test/core_matchers_test.dart 13:29             BadCustomMatcher.featureValueOf "
-        "package:matcher/src/core_matchers.dart 619:15  CustomMatcher.matches "
-        "package:test/src/frontend/expect.dart 154:17   _expect "
-        "package:test/src/frontend/expect.dart 68:3     expect "
-        "test/test_utils.dart 10:5                      shouldFail "
-        "test/core_matchers_test.dart 247:5             main.<fn> "
-        "package:test/src/backend/declarer.dart 131:19  Declarer.test.<fn>.<fn> "
-        "package:test/src/backend/invoker.dart 204:17   Invoker.waitForOutstandingCallbacks.<fn>.<fn> "
-        "dart:async                                     runZoned "
-        "package:test/src/backend/invoker.dart 201:7    Invoker.waitForOutstandingCallbacks.<fn> "
-        "dart:async                                     runZoned "
-        "package:test/src/backend/invoker.dart 200:5    Invoker.waitForOutstandingCallbacks "
-        "package:test/src/backend/declarer.dart 129:29  Declarer.test.<fn> "
-        "package:test/src/backend/invoker.dart 342:23   Invoker._onRun.<fn>.<fn>.<fn> "
-    );
+        allOf([
+          contains("Expected: feature {1: 'a'} "),
+          contains("Actual: 'a' "),
+          contains("Which: threw 'Exception: bang' "),
+          contains("test/core_matchers_test.dart "),
+          contains("package:test ")
+        ]));
   });
 }
