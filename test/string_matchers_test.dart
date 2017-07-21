@@ -13,6 +13,14 @@ void main() {
         contains('Differ at offset 7'));
   });
 
+  test("Retains outer matcher mismatch text", () {
+    shouldFail({'word': 'thing'}, containsPair('word', equals('notthing')),
+        allOf([
+          contains("contains key 'word' but with value is different"),
+          contains("Differ at offset 0")
+        ]));
+  });
+
   test('collapseWhitespace', () {
     var source = '\t\r\n hello\t\r\n world\r\t \n';
     expect(collapseWhitespace(source), 'hello world');
@@ -53,8 +61,8 @@ void main() {
         ' helloworld  ',
         equalsIgnoringWhitespace('hello world'),
         "Expected: 'hello world' ignoring whitespace "
-        "Actual: ' helloworld ' "
-        "Which: is 'helloworld' with whitespace compressed");
+            "Actual: ' helloworld ' "
+            "Which: is 'helloworld' with whitespace compressed");
   });
 
   test('startsWith', () {
@@ -65,7 +73,7 @@ void main() {
         'hello',
         startsWith('hello '),
         "Expected: a string starting with 'hello ' "
-        "Actual: 'hello'");
+            "Actual: 'hello'");
   });
 
   test('endsWith', () {
@@ -76,7 +84,7 @@ void main() {
         'hello',
         endsWith(' hello'),
         "Expected: a string ending with ' hello' "
-        "Actual: 'hello'");
+            "Actual: 'hello'");
   });
 
   test('contains', () {
@@ -106,7 +114,7 @@ void main() {
         'goodbye cruel world',
         stringContainsInOrder(['goo', 'cruel', 'bye']),
         "Expected: a string containing 'goo', 'cruel', 'bye' in order "
-        "Actual: 'goodbye cruel world'");
+            "Actual: 'goodbye cruel world'");
   });
 
   test('matches', () {
