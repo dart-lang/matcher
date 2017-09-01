@@ -154,9 +154,9 @@ class _UnorderedMatches extends Matcher {
   _UnorderedMatches(Iterable expected)
       : _expected = expected.map(wrapMatcher).toList();
 
-  String _test(item) {
-    if (item is! Iterable) return 'not iterable';
-    item = item.toList();
+  String _test(_item) {
+    if (_item is! Iterable) return 'not iterable';
+    var item = (_item as Iterable).toList();
 
     // Check the lengths are the same.
     if (_expected.length > item.length) {
@@ -210,21 +210,22 @@ class _UnorderedMatches extends Matcher {
 /// The [comparator] function, taking an expected and an actual argument, and
 /// returning whether they match, will be applied to each pair in order.
 /// [description] should be a meaningful name for the comparator.
-Matcher pairwiseCompare(
-        Iterable expected, bool comparator(a, b), String description) =>
+Matcher pairwiseCompare<S, T>(
+        Iterable<S> expected, bool comparator(S a, T b), String description) =>
     new _PairwiseCompare(expected, comparator, description);
 
-typedef bool _Comparator(a, b);
+typedef bool _Comparator<S, T>(S a, T b);
 
-class _PairwiseCompare extends _IterableMatcher {
-  final Iterable _expected;
-  final _Comparator _comparator;
+class _PairwiseCompare<S, T> extends _IterableMatcher {
+  final Iterable<S> _expected;
+  final _Comparator<S, T> _comparator;
   final String _description;
 
   _PairwiseCompare(this._expected, this._comparator, this._description);
 
-  bool matches(item, Map matchState) {
-    if (item is! Iterable) return false;
+  bool matches(_item, Map matchState) {
+    if (_item is! Iterable) return false;
+    var item = _item as Iterable;
     if (item.length != _expected.length) return false;
     var iterator = item.iterator;
     var i = 0;

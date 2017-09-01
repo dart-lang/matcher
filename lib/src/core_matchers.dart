@@ -110,6 +110,8 @@ Matcher equals(expected, [int limit = 100]) => expected is String
     ? new _StringEqualsMatcher(expected)
     : new _DeepMatcher(expected, limit);
 
+typedef _RecursiveMatcher = List<String> Function(dynamic, dynamic, String, int);
+
 class _DeepMatcher extends Matcher {
   final _expected;
   final int _limit;
@@ -117,9 +119,10 @@ class _DeepMatcher extends Matcher {
   _DeepMatcher(this._expected, [int limit = 1000]) : this._limit = limit;
 
   // Returns a pair (reason, location)
-  List _compareIterables(expected, actual, matcher, depth, location) {
-    if (actual is! Iterable) return ['is not Iterable', location];
-
+  List<String> _compareIterables(Iterable expected, Object _actual,
+      _RecursiveMatcher matcher, int depth, String location) {
+    if (_actual is! Iterable) return ['is not Iterable', location];
+    var actual = _actual as Iterable;
     var expectedIterator = expected.iterator;
     var actualIterator = actual.iterator;
     for (var index = 0;; index++) {
@@ -142,9 +145,9 @@ class _DeepMatcher extends Matcher {
     }
   }
 
-  List _compareSets(Set expected, actual, matcher, depth, location) {
-    if (actual is! Iterable) return ['is not Iterable', location];
-    actual = actual.toSet();
+  List<String> _compareSets(Set expected, Object _actual, _RecursiveMatcher matcher, int depth, String location) {
+    if (_actual is! Iterable) return ['is not Iterable', location];
+    Set actual = (_actual as Iterable).toSet();
 
     for (var expectedElement in expected) {
       if (actual.every((actualElement) =>
@@ -162,7 +165,7 @@ class _DeepMatcher extends Matcher {
     }
   }
 
-  List _recursiveMatch(expected, actual, String location, int depth) {
+  List<String> _recursiveMatch(Object expected, Object actual, String location, int depth) {
     // If the expected value is a matcher, try to match it.
     if (expected is Matcher) {
       var matchState = {};
@@ -193,17 +196,17 @@ class _DeepMatcher extends Matcher {
             expected, actual, _recursiveMatch, depth + 1, location);
       } else if (expected is Map) {
         if (actual is! Map) return ['expected a map', location];
-
-        var err = (expected.length == actual.length)
+        var map = (actual as Map);
+        var err = (expected.length == map.length)
             ? ''
             : 'has different length and ';
         for (var key in expected.keys) {
-          if (!actual.containsKey(key)) {
+          if (!map.containsKey(key)) {
             return ["${err}is missing map key '$key'", location];
           }
         }
 
-        for (var key in actual.keys) {
+        for (var key in map.keys) {
           if (!expected.containsKey(key)) {
             return ["${err}has extra map key '$key'", location];
           }
@@ -211,7 +214,7 @@ class _DeepMatcher extends Matcher {
 
         for (var key in expected.keys) {
           var rp = _recursiveMatch(
-              expected[key], actual[key], "$location['$key']", depth + 1);
+              expected[key], map[key], "$location['$key']", depth + 1);
           if (rp != null) return rp;
         }
 
@@ -239,7 +242,7 @@ class _DeepMatcher extends Matcher {
   String _match(expected, actual, Map matchState) {
     var rp = _recursiveMatch(expected, actual, '', 0);
     if (rp == null) return null;
-    var reason;
+    String reason;
     if (rp[0].length > 0) {
       if (rp[1].length > 0) {
         reason = "${rp[0]} at location ${rp[1]}";
@@ -567,18 +570,19 @@ class _In extends Matcher {
 /// For example:
 ///
 ///     expect(v, predicate((x) => ((x % 2) == 0), "is even"))
-Matcher predicate(bool f(value), [String description = 'satisfies function']) =>
+Matcher predicate<T>(bool f(T value),
+        [String description = 'satisfies function']) =>
     new _Predicate(f, description);
 
-typedef bool _PredicateFunction(value);
+typedef bool _PredicateFunction<T>(T value);
 
-class _Predicate extends Matcher {
-  final _PredicateFunction _matcher;
+class _Predicate<T> extends Matcher {
+  final _PredicateFunction<T> _matcher;
   final String _description;
 
-  const _Predicate(this._matcher, this._description);
+  _Predicate(this._matcher, this._description);
 
-  bool matches(item, Map matchState) => _matcher(item);
+  bool matches(item, Map matchState) => _matcher(item as T);
 
   Description describe(Description description) =>
       description.add(_description);
