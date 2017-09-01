@@ -110,7 +110,8 @@ Matcher equals(expected, [int limit = 100]) => expected is String
     ? new _StringEqualsMatcher(expected)
     : new _DeepMatcher(expected, limit);
 
-typedef _RecursiveMatcher = List<String> Function(dynamic, dynamic, String, int);
+typedef _RecursiveMatcher = List<String> Function(
+    dynamic, dynamic, String, int);
 
 class _DeepMatcher extends Matcher {
   final _expected;
@@ -145,7 +146,8 @@ class _DeepMatcher extends Matcher {
     }
   }
 
-  List<String> _compareSets(Set expected, Object _actual, _RecursiveMatcher matcher, int depth, String location) {
+  List<String> _compareSets(Set expected, Object _actual,
+      _RecursiveMatcher matcher, int depth, String location) {
     if (_actual is! Iterable) return ['is not Iterable', location];
     Set actual = (_actual as Iterable).toSet();
 
@@ -165,7 +167,8 @@ class _DeepMatcher extends Matcher {
     }
   }
 
-  List<String> _recursiveMatch(Object expected, Object actual, String location, int depth) {
+  List<String> _recursiveMatch(
+      Object expected, Object actual, String location, int depth) {
     // If the expected value is a matcher, try to match it.
     if (expected is Matcher) {
       var matchState = {};
@@ -197,9 +200,8 @@ class _DeepMatcher extends Matcher {
       } else if (expected is Map) {
         if (actual is! Map) return ['expected a map', location];
         var map = (actual as Map);
-        var err = (expected.length == map.length)
-            ? ''
-            : 'has different length and ';
+        var err =
+            (expected.length == map.length) ? '' : 'has different length and ';
         for (var key in expected.keys) {
           if (!map.containsKey(key)) {
             return ["${err}is missing map key '$key'", location];
