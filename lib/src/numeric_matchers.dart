@@ -71,21 +71,21 @@ class _InRange extends Matcher {
   const _InRange(
       this._low, this._high, this._lowMatchValue, this._highMatchValue);
 
-  bool matches(_value, Map matchState) {
-    if (_value is! num) {
+  bool matches(value, Map matchState) {
+    if (value is num) {
+      if (value < _low || value > _high) {
+        return false;
+      }
+      if (value == _low) {
+        return _lowMatchValue;
+      }
+      if (value == _high) {
+        return _highMatchValue;
+      }
+      return true;
+    } else {
       return false;
     }
-    var value = _value as num;
-    if (value < _low || value > _high) {
-      return false;
-    }
-    if (value == _low) {
-      return _lowMatchValue;
-    }
-    if (value == _high) {
-      return _highMatchValue;
-    }
-    return true;
   }
 
   Description describe(Description description) =>
