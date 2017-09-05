@@ -120,50 +120,56 @@ class _DeepMatcher extends Matcher {
   _DeepMatcher(this._expected, [int limit = 1000]) : this._limit = limit;
 
   // Returns a pair (reason, location)
-  List<String> _compareIterables(Iterable expected, Object _actual,
+  List<String> _compareIterables(Iterable expected, Object actual,
       _RecursiveMatcher matcher, int depth, String location) {
-    if (_actual is! Iterable) return ['is not Iterable', location];
-    var actual = _actual as Iterable;
-    var expectedIterator = expected.iterator;
-    var actualIterator = actual.iterator;
-    for (var index = 0;; index++) {
-      // Advance in lockstep.
-      var expectedNext = expectedIterator.moveNext();
-      var actualNext = actualIterator.moveNext();
+    if (actual is Iterable) {
+      var expectedIterator = expected.iterator;
+      var actualIterator = actual.iterator;
+      for (var index = 0;; index++) {
+        // Advance in lockstep.
+        var expectedNext = expectedIterator.moveNext();
+        var actualNext = actualIterator.moveNext();
 
-      // If we reached the end of both, we succeeded.
-      if (!expectedNext && !actualNext) return null;
+        // If we reached the end of both, we succeeded.
+        if (!expectedNext && !actualNext) return null;
 
-      // Fail if their lengths are different.
-      var newLocation = '$location[$index]';
-      if (!expectedNext) return ['longer than expected', newLocation];
-      if (!actualNext) return ['shorter than expected', newLocation];
+        // Fail if their lengths are different.
+        var newLocation = '$location[$index]';
+        if (!expectedNext) return ['longer than expected', newLocation];
+        if (!actualNext) return ['shorter than expected', newLocation];
 
-      // Match the elements.
-      var rp = matcher(
-          expectedIterator.current, actualIterator.current, newLocation, depth);
-      if (rp != null) return rp;
+        // Match the elements.
+        var rp = matcher(
+            expectedIterator.current, actualIterator.current, newLocation,
+            depth);
+        if (rp != null) return rp;
+      }
+    } else {
+      return ['is not Iterable', location];
     }
   }
 
-  List<String> _compareSets(Set expected, Object _actual,
+  List<String> _compareSets(Set expected, Object actual,
       _RecursiveMatcher matcher, int depth, String location) {
-    if (_actual is! Iterable) return ['is not Iterable', location];
-    Set actual = (_actual as Iterable).toSet();
+    if (actual is Iterable) {
+      Set other = actual.toSet();
 
-    for (var expectedElement in expected) {
-      if (actual.every((actualElement) =>
-          matcher(expectedElement, actualElement, location, depth) != null)) {
-        return ['does not contain $expectedElement', location];
+      for (var expectedElement in expected) {
+        if (other.every((actualElement) =>
+        matcher(expectedElement, actualElement, location, depth) != null)) {
+          return ['does not contain $expectedElement', location];
+        }
       }
-    }
 
-    if (actual.length > expected.length) {
-      return ['larger than expected', location];
-    } else if (actual.length < expected.length) {
-      return ['smaller than expected', location];
+      if (other.length > expected.length) {
+        return ['larger than expected', location];
+      } else if (other.length < expected.length) {
+        return ['smaller than expected', location];
+      } else {
+        return null;
+      }
     } else {
-      return null;
+      return ['is not Iterable', location];
     }
   }
 
