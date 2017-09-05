@@ -139,9 +139,8 @@ class _DeepMatcher extends Matcher {
         if (!actualNext) return ['shorter than expected', newLocation];
 
         // Match the elements.
-        var rp = matcher(
-            expectedIterator.current, actualIterator.current, newLocation,
-            depth);
+        var rp = matcher(expectedIterator.current, actualIterator.current,
+            newLocation, depth);
         if (rp != null) return rp;
       }
     } else {
@@ -156,7 +155,7 @@ class _DeepMatcher extends Matcher {
 
       for (var expectedElement in expected) {
         if (other.every((actualElement) =>
-        matcher(expectedElement, actualElement, location, depth) != null)) {
+            matcher(expectedElement, actualElement, location, depth) != null)) {
           return ['does not contain $expectedElement', location];
         }
       }
