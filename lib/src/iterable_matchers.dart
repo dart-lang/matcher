@@ -111,7 +111,8 @@ class _OrderedEquals extends Matcher {
 /// Returns a matcher which matches [Iterable]s that have the same length and
 /// the same elements as [expected], but not necessarily in the same order.
 ///
-/// Note that this is O(n^2) so should only be used on small iterables.
+/// Note that this is worst case O(n^2) runtime and memory usage so it should
+/// only be used on small iterables.
 Matcher unorderedEquals(Iterable expected) => new _UnorderedEquals(expected);
 
 class _UnorderedEquals extends _UnorderedMatches {
@@ -145,7 +146,8 @@ abstract class _IterableMatcher extends Matcher {
 /// Returns a matcher which matches [Iterable]s whose elements match the
 /// matchers in [expected], but not necessarily in the same order.
 ///
-///  Note that this is `O(n^2)` and so should only be used on small iterables.
+/// Note that this is worst case O(n^2) runtime and memory usage so it should
+/// only be used on small iterables.
 Matcher unorderedMatches(Iterable expected) => new _UnorderedMatches(expected);
 
 class _UnorderedMatches extends Matcher {
@@ -155,54 +157,53 @@ class _UnorderedMatches extends Matcher {
       : _expected = expected.map(wrapMatcher).toList();
 
   String _test(item) {
-    if (item is Iterable) {
-      var list = item.toList();
+    if (item is! Iterable) return 'not iterable';
 
-      // Check the lengths are the same.
-      if (_expected.length > list.length) {
-        return 'has too few elements (${list.length} < ${_expected.length})';
-      } else if (_expected.length < list.length) {
-        return 'has too many elements (${list.length} > ${_expected.length})';
-      }
+    var values = item.toList();
 
-      var adjacency = list
-          .map((_) => new List.filled(_expected.length, false, growable: false))
-          .toList(growable: false);
-      for (int v = 0; v < list.length; v++) {
-        for (int m = 0; m < _expected.length; m++) {
-          if (_expected[m].matches(list[v], {})) {
-            adjacency[v][m] = true;
-          }
-        }
-      }
-      // The index into `values` matched with each matcher
-      var matched = new List<int>.filled(_expected.length, -1, growable: false);
-      for (int valueIndex = 0; valueIndex < list.length; valueIndex++) {
-        _findPairing(adjacency, valueIndex, new Set<int>(), matched);
-      }
-      var unmatched = <Matcher>[];
-      for (int matcherIndex = 0;
-          matcherIndex < _expected.length;
-          matcherIndex++) {
-        if (matched[matcherIndex] < 0) unmatched.add(_expected[matcherIndex]);
-      }
-      if (unmatched.isNotEmpty) {
-        if (unmatched.length > 1) {
-          return new StringDescription()
-              .add('has no match for any of ')
-              .addAll('(', ', ', ')', unmatched)
-              .toString();
-        } else {
-          return new StringDescription()
-              .add('has no match for ')
-              .addDescriptionOf(unmatched.single)
-              .toString();
-        }
-      }
-      return null;
-    } else {
-      return 'not iterable';
+    // Check the lengths are the same.
+    if (_expected.length > values.length) {
+      return 'has too few elements (${values.length} < ${_expected.length})';
+    } else if (_expected.length < values.length) {
+      return 'has too many elements (${values.length} > ${_expected.length})';
     }
+
+    var edges = values.map((_) => <int>[]).toList(growable: false);
+    for (int v = 0; v < values.length; v++) {
+      for (int m = 0; m < _expected.length; m++) {
+        if (_expected[m].matches(values[v], {})) {
+          edges[v].add(m);
+        }
+      }
+    }
+    // The index into `values` matched with each matcher or `null` if no value
+    // has been matched yet.
+    var matched = new List<int>(_expected.length);
+    for (int valueIndex = 0; valueIndex < values.length; valueIndex++) {
+      _findPairing(edges, valueIndex, matched);
+    }
+    var unmatched = <Matcher>[];
+    for (int matcherIndex = 0;
+        matcherIndex < _expected.length;
+        matcherIndex++) {
+      if (matched[matcherIndex] == null) {
+        unmatched.add(_expected[matcherIndex]);
+      }
+    }
+    if (unmatched.isNotEmpty) {
+      if (unmatched.length > 1) {
+        return new StringDescription()
+            .add('has no match for any of ')
+            .addAll('(', ', ', ')', unmatched)
+            .toString();
+      } else {
+        return new StringDescription()
+            .add('has no match for ')
+            .addDescriptionOf(unmatched.single)
+            .toString();
+      }
+    }
+    return null;
   }
 
   bool matches(item, Map mismatchState) => _test(item) == null;
@@ -217,20 +218,25 @@ class _UnorderedMatches extends Matcher {
       mismatchDescription.add(_test(item));
 
   /// Returns [true] if the value at [valueIndex] can be paired with some
-  /// unmatched matcher.
+  /// unmatched matcher and updates the state of [matched].
   ///
-  /// Recursively looks for new pairings whenever there is a conflict. [seen]
-  /// tracks the matchers that have already been consumed within this search.
-  bool _findPairing(List<List<bool>> adjacency, int valueIndex, Set<int> seen,
-      List<int> matched) {
-    for (int i = 0; i < matched.length; i++) {
-      if (adjacency[valueIndex][i] && !seen.contains(i)) {
-        seen.add(i);
-        if (matched[i] < 0 ||
-            _findPairing(adjacency, matched[i], seen, matched)) {
-          matched[i] = valueIndex;
-          return true;
-        }
+  /// If there is a conflic where multiple values may match the same matcher
+  /// recursively looks for a new place to match the old value. [seen] trackes
+  /// the matchers that have been used _during_ this search.
+  bool _findPairing(List<List<int>> edges, int valueIndex, List<int> matched,
+      [Set<int> seen]) {
+    seen ??= new Set<int>();
+    final possiblePairings = edges[valueIndex].where((m) => !seen.contains(m));
+    for (final matcherIndex in possiblePairings) {
+      seen.add(matcherIndex);
+      final previouslyMatched = matched[matcherIndex];
+      final canPlaceWithoutConflict = previouslyMatched == null;
+      if (canPlaceWithoutConflict ||
+          // If the matcher isn't already free, check whether the existing value
+          // occupying the matcher can be bumped to another one.
+          _findPairing(edges, matched[matcherIndex], matched, seen)) {
+        matched[matcherIndex] = valueIndex;
+        return true;
       }
     }
     return false;
