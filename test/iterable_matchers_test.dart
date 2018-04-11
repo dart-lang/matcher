@@ -143,13 +143,22 @@ void main() {
         unorderedEquals([3, 1]),
         "Expected: equals [3, 1] unordered "
         "Actual: [1, 2] "
-        "Which: has no match for <3> at index 0");
+        "Which: has no match for <3>");
+    shouldFail(
+        d,
+        unorderedEquals([3, 4]),
+        "Expected: equals [3, 4] unordered "
+        "Actual: [1, 2] "
+        "Which: has no match for any of (<3>, <4>)");
   });
 
-  test('unorderedMatchess', () {
+  test('unorderedMatches', () {
     var d = [1, 2];
     shouldPass(d, unorderedMatches([2, 1]));
     shouldPass(d, unorderedMatches([greaterThan(1), greaterThan(0)]));
+    shouldPass(d, unorderedMatches([greaterThan(0), greaterThan(1)]));
+    shouldPass([2, 1], unorderedMatches([greaterThan(1), greaterThan(0)]));
+    shouldPass([2, 1], unorderedMatches([greaterThan(0), greaterThan(1)]));
     shouldFail(
         d,
         unorderedMatches([greaterThan(0)]),
@@ -167,14 +176,14 @@ void main() {
         unorderedMatches([3, 1]),
         "Expected: matches [<3>, <1>] unordered "
         "Actual: [1, 2] "
-        "Which: has no match for <3> at index 0");
+        "Which: has no match for <3>");
     shouldFail(
         d,
         unorderedMatches([greaterThan(3), greaterThan(0)]),
         "Expected: matches [a value greater than <3>, a value greater than "
         "<0>] unordered "
         "Actual: [1, 2] "
-        "Which: has no match for a value greater than <3> at index 0");
+        "Which: has no match for a value greater than <3>");
   });
 
   test('containsAllInOrder', () {

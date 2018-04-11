@@ -111,7 +111,7 @@ class _OrderedEquals extends Matcher {
 /// Returns a matcher which matches [Iterable]s that have the same length and
 /// the same elements as [expected], but not necessarily in the same order.
 ///
-/// Note that this is O(n^2) so should only be used on small objects.
+/// Note that this is O(n^2) so should only be used on small iterables.
 Matcher unorderedEquals(Iterable expected) => new _UnorderedEquals(expected);
 
 class _UnorderedEquals extends _UnorderedMatches {
@@ -145,7 +145,7 @@ abstract class _IterableMatcher extends Matcher {
 /// Returns a matcher which matches [Iterable]s whose elements match the
 /// matchers in [expected], but not necessarily in the same order.
 ///
-///  Note that this is `O(n^2)` and so should only be used on small objects.
+///  Note that this is `O(n^2)` and so should only be used on small iterables.
 Matcher unorderedMatches(Iterable expected) => new _UnorderedMatches(expected);
 
 class _UnorderedMatches extends Matcher {
@@ -165,30 +165,39 @@ class _UnorderedMatches extends Matcher {
         return 'has too many elements (${list.length} > ${_expected.length})';
       }
 
-      var matched = new List<bool>.filled(list.length, false);
-      var expectedPosition = 0;
-      for (var expectedMatcher in _expected) {
-        var actualPosition = 0;
-        var gotMatch = false;
-        for (var actualElement in list) {
-          if (!matched[actualPosition]) {
-            if (expectedMatcher.matches(actualElement, {})) {
-              matched[actualPosition] = gotMatch = true;
-              break;
-            }
+      var adjacency = list
+          .map((_) => new List.filled(_expected.length, false, growable: false))
+          .toList(growable: false);
+      for (int v = 0; v < list.length; v++) {
+        for (int m = 0; m < _expected.length; m++) {
+          if (_expected[m].matches(list[v], {})) {
+            adjacency[v][m] = true;
           }
-          ++actualPosition;
         }
-
-        if (!gotMatch) {
+      }
+      // The index into `values` matched with each matcher
+      var matched = new List<int>.filled(_expected.length, -1, growable: false);
+      for (int valueIndex = 0; valueIndex < list.length; valueIndex++) {
+        _findPairing(adjacency, valueIndex, new Set<int>(), matched);
+      }
+      var unmatched = <Matcher>[];
+      for (int matcherIndex = 0;
+          matcherIndex < _expected.length;
+          matcherIndex++) {
+        if (matched[matcherIndex] < 0) unmatched.add(_expected[matcherIndex]);
+      }
+      if (unmatched.isNotEmpty) {
+        if (unmatched.length > 1) {
+          return new StringDescription()
+              .add('has no match for any of ')
+              .addAll('(', ', ', ')', unmatched)
+              .toString();
+        } else {
           return new StringDescription()
               .add('has no match for ')
-              .addDescriptionOf(expectedMatcher)
-              .add(' at index $expectedPosition')
+              .addDescriptionOf(unmatched.single)
               .toString();
         }
-
-        ++expectedPosition;
       }
       return null;
     } else {
@@ -206,6 +215,26 @@ class _UnorderedMatches extends Matcher {
   Description describeMismatch(item, Description mismatchDescription,
           Map matchState, bool verbose) =>
       mismatchDescription.add(_test(item));
+
+  /// Returns [true] if the value at [valueIndex] can be paired with some
+  /// unmatched matcher.
+  ///
+  /// Recursively looks for new pairings whenever there is a conflict. [seen]
+  /// tracks the matchers that have already been consumed within this search.
+  bool _findPairing(List<List<bool>> adjacency, int valueIndex, Set<int> seen,
+      List<int> matched) {
+    for (int i = 0; i < matched.length; i++) {
+      if (adjacency[valueIndex][i] && !seen.contains(i)) {
+        seen.add(i);
+        if (matched[i] < 0 ||
+            _findPairing(adjacency, matched[i], seen, matched)) {
+          matched[i] = valueIndex;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
 
 /// A pairwise matcher for [Iterable]s.
