@@ -168,7 +168,8 @@ class _UnorderedMatches extends Matcher {
       return 'has too many elements (${values.length} > ${_expected.length})';
     }
 
-    var edges = values.map((_) => <int>[]).toList(growable: false);
+    var edges =
+        new List.generate(values.length, (_) => <int>[], growable: false);
     for (int v = 0; v < values.length; v++) {
       for (int m = 0; m < _expected.length; m++) {
         if (_expected[m].matches(values[v], {})) {
