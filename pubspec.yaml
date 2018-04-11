@@ -9,3 +9,6 @@ dependencies:
   stack_trace: '^1.2.0'
 dev_dependencies:
   test: '>=0.12.0 <0.13.0'
+
+dependency_overrides:
+  test: ^0.12.0
