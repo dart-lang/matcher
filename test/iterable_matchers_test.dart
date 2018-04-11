@@ -208,15 +208,22 @@ void main() {
     shouldFail(
         d,
         containsAll([1, 2, 3]),
-        "Expected: contains all of ([1, 2, 3]) "
+        "Expected: contains all of [1, 2, 3] "
         "Actual: [0, 1, 2] "
         "Which: has no match for <3> at index 2");
     shouldFail(
         1,
         containsAll([1]),
-        "Expected: contains all of ([1]) "
+        "Expected: contains all of [1] "
         "Actual: <1> "
         "Which: not iterable");
+    shouldFail(
+        [2],
+        containsAll([greaterThan(0), greaterThan(1)]),
+        "Expected: contains all of [<a value greater than <0>>, "
+        "<a value greater than <1>>] "
+        "Actual: [2] "
+        "Which: has too few elements (1 < 2)");
   });
 
   test('containsAllInOrder', () {

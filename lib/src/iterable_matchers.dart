@@ -152,11 +152,11 @@ Matcher unorderedMatches(Iterable expected) => new _UnorderedMatches(expected);
 
 class _UnorderedMatches extends Matcher {
   final List<Matcher> _expected;
-  final bool _mustMatchEveryValue;
+  final bool _allowUnmatchedValues;
 
-  _UnorderedMatches(Iterable expected, {bool mustMatchEveryValue})
+  _UnorderedMatches(Iterable expected, {bool allowUnmatchedValues})
       : _expected = expected.map(wrapMatcher).toList(),
-        _mustMatchEveryValue = mustMatchEveryValue ?? true;
+        _allowUnmatchedValues = allowUnmatchedValues ?? false;
 
   String _test(item) {
     if (item is! Iterable) return 'not iterable';
@@ -166,7 +166,7 @@ class _UnorderedMatches extends Matcher {
     // Check the lengths are the same.
     if (_expected.length > values.length) {
       return 'has too few elements (${values.length} < ${_expected.length})';
-    } else if (_mustMatchEveryValue && _expected.length < values.length) {
+    } else if (!_allowUnmatchedValues && _expected.length < values.length) {
       return 'has too many elements (${values.length} > ${_expected.length})';
     }
 
@@ -325,12 +325,10 @@ class _ContainsAll extends _UnorderedMatches {
 
   _ContainsAll(Iterable expected)
       : _unwrappedExpected = expected,
-        super(expected.map(wrapMatcher), mustMatchEveryValue: false);
+        super(expected.map(wrapMatcher), allowUnmatchedValues: true);
   @override
-  Description describe(Description description) => description
-      .add('contains all of (')
-      .addDescriptionOf(_unwrappedExpected)
-      .add(')');
+  Description describe(Description description) =>
+      description.add('contains all of ').addDescriptionOf(_unwrappedExpected);
 }
 
 /// Matches [Iterable]s which contain an element matching every value in
