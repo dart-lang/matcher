@@ -143,13 +143,14 @@ void main() {
         unorderedEquals([3, 1]),
         "Expected: equals [3, 1] unordered "
         "Actual: [1, 2] "
-        "Which: has no match for <3>");
+        "Which: has no match for <3> at index 0");
     shouldFail(
         d,
         unorderedEquals([3, 4]),
         "Expected: equals [3, 4] unordered "
         "Actual: [1, 2] "
-        "Which: has no match for any of (<3>, <4>)");
+        "Which: has no match for <3> at index 0"
+        " along with 1 other unmatched");
   });
 
   test('unorderedMatches', () {
@@ -176,14 +177,14 @@ void main() {
         unorderedMatches([3, 1]),
         "Expected: matches [<3>, <1>] unordered "
         "Actual: [1, 2] "
-        "Which: has no match for <3>");
+        "Which: has no match for <3> at index 0");
     shouldFail(
         d,
         unorderedMatches([greaterThan(3), greaterThan(0)]),
         "Expected: matches [a value greater than <3>, a value greater than "
         "<0>] unordered "
         "Actual: [1, 2] "
-        "Which: has no match for a value greater than <3>");
+        "Which: has no match for a value greater than <3> at index 0");
   });
 
   test('containsAllInOrder', () {

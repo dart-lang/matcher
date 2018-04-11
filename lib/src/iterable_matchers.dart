@@ -182,25 +182,23 @@ class _UnorderedMatches extends Matcher {
     for (int valueIndex = 0; valueIndex < values.length; valueIndex++) {
       _findPairing(edges, valueIndex, matched);
     }
-    var unmatched = <Matcher>[];
     for (int matcherIndex = 0;
         matcherIndex < _expected.length;
         matcherIndex++) {
       if (matched[matcherIndex] == null) {
-        unmatched.add(_expected[matcherIndex]);
-      }
-    }
-    if (unmatched.isNotEmpty) {
-      if (unmatched.length > 1) {
-        return new StringDescription()
-            .add('has no match for any of ')
-            .addAll('(', ', ', ')', unmatched)
-            .toString();
-      } else {
-        return new StringDescription()
+        final description = new StringDescription()
             .add('has no match for ')
-            .addDescriptionOf(unmatched.single)
-            .toString();
+            .addDescriptionOf(_expected[matcherIndex])
+            .add(' at index $matcherIndex');
+        final remainingUnmatched = matched
+            .sublist(matcherIndex + 1)
+            .where((m) => m == null)
+            .length;
+        return remainingUnmatched == 0
+            ? description.toString()
+            : description
+                .add(' along with $remainingUnmatched other unmatched')
+                .toString();
       }
     }
     return null;
