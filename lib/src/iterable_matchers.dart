@@ -190,10 +190,8 @@ class _UnorderedMatches extends Matcher {
             .add('has no match for ')
             .addDescriptionOf(_expected[matcherIndex])
             .add(' at index $matcherIndex');
-        final remainingUnmatched = matched
-            .sublist(matcherIndex + 1)
-            .where((m) => m == null)
-            .length;
+        final remainingUnmatched =
+            matched.sublist(matcherIndex + 1).where((m) => m == null).length;
         return remainingUnmatched == 0
             ? description.toString()
             : description
@@ -228,8 +226,7 @@ class _UnorderedMatches extends Matcher {
     for (final matcherIndex in possiblePairings) {
       seen.add(matcherIndex);
       final previouslyMatched = matched[matcherIndex];
-      final canPlaceWithoutConflict = previouslyMatched == null;
-      if (canPlaceWithoutConflict ||
+      if (previouslyMatched == null ||
           // If the matcher isn't already free, check whether the existing value
           // occupying the matcher can be bumped to another one.
           _findPairing(edges, matched[matcherIndex], matched, seen)) {
