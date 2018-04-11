@@ -218,19 +218,20 @@ class _UnorderedMatches extends Matcher {
   /// unmatched matcher and updates the state of [matched].
   ///
   /// If there is a conflic where multiple values may match the same matcher
-  /// recursively looks for a new place to match the old value. [seen] trackes
-  /// the matchers that have been used _during_ this search.
+  /// recursively looks for a new place to match the old value. [reserved]
+  /// tracks the matchers that have been used _during_ this search.
   bool _findPairing(List<List<int>> edges, int valueIndex, List<int> matched,
-      [Set<int> seen]) {
-    seen ??= new Set<int>();
-    final possiblePairings = edges[valueIndex].where((m) => !seen.contains(m));
+      [Set<int> reserved]) {
+    reserved ??= new Set<int>();
+    final possiblePairings =
+        edges[valueIndex].where((m) => !reserved.contains(m));
     for (final matcherIndex in possiblePairings) {
-      seen.add(matcherIndex);
+      reserved.add(matcherIndex);
       final previouslyMatched = matched[matcherIndex];
       if (previouslyMatched == null ||
           // If the matcher isn't already free, check whether the existing value
           // occupying the matcher can be bumped to another one.
-          _findPairing(edges, matched[matcherIndex], matched, seen)) {
+          _findPairing(edges, matched[matcherIndex], matched, reserved)) {
         matched[matcherIndex] = valueIndex;
         return true;
       }
