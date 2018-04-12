@@ -1,3 +1,7 @@
+## 0.12.1+5
+
+- Updated SDK version to 2.0.0-dev.17.0
+
 ## 0.12.1+4
 
 * Fixed SDK constraint to allow edge builds.
