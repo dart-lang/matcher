@@ -218,12 +218,12 @@ void main() {
         "Actual: <1> "
         "Which: not iterable");
     shouldFail(
-        [2],
+        [-1, 2],
         containsAll([greaterThan(0), greaterThan(1)]),
         "Expected: contains all of [<a value greater than <0>>, "
         "<a value greater than <1>>] "
-        "Actual: [2] "
-        "Which: has too few elements (1 < 2)");
+        "Actual: [-1, 2] "
+        "Which: has no match for a value greater than <1> at index 1");
   });
 
   test('containsAllInOrder', () {
