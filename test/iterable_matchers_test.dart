@@ -144,12 +144,34 @@ void main() {
         "Expected: equals [3, 1] unordered "
         "Actual: [1, 2] "
         "Which: has no match for <3> at index 0");
+    shouldFail(
+        d,
+        unorderedEquals([3, 4]),
+        "Expected: equals [3, 4] unordered "
+        "Actual: [1, 2] "
+        "Which: has no match for <3> at index 0"
+        " along with 1 other unmatched");
   });
 
-  test('unorderedMatchess', () {
+  test('unorderedMatches', () {
     var d = [1, 2];
     shouldPass(d, unorderedMatches([2, 1]));
     shouldPass(d, unorderedMatches([greaterThan(1), greaterThan(0)]));
+    shouldPass(d, unorderedMatches([greaterThan(0), greaterThan(1)]));
+    shouldPass([2, 1], unorderedMatches([greaterThan(1), greaterThan(0)]));
+
+    shouldPass([2, 1], unorderedMatches([greaterThan(0), greaterThan(1)]));
+    // Excersize the case where pairings should get "bumped" multiple times
+    shouldPass(
+        [0, 1, 2, 3, 5, 6],
+        unorderedMatches([
+          greaterThan(1), // 6
+          equals(2), // 2
+          allOf([lessThan(3), isNot(0)]), // 1
+          equals(0), // 0
+          predicate((v) => v % 2 == 1), // 3
+          equals(5), // 5
+        ]));
     shouldFail(
         d,
         unorderedMatches([greaterThan(0)]),
@@ -175,6 +197,33 @@ void main() {
         "<0>] unordered "
         "Actual: [1, 2] "
         "Which: has no match for a value greater than <3> at index 0");
+  });
+
+  test('containsAll', () {
+    var d = [0, 1, 2];
+    shouldPass(d, containsAll([1, 2]));
+    shouldPass(d, containsAll([2, 1]));
+    shouldPass(d, containsAll([greaterThan(0), greaterThan(1)]));
+    shouldPass([2, 1], containsAll([greaterThan(0), greaterThan(1)]));
+    shouldFail(
+        d,
+        containsAll([1, 2, 3]),
+        "Expected: contains all of [1, 2, 3] "
+        "Actual: [0, 1, 2] "
+        "Which: has no match for <3> at index 2");
+    shouldFail(
+        1,
+        containsAll([1]),
+        "Expected: contains all of [1] "
+        "Actual: <1> "
+        "Which: not iterable");
+    shouldFail(
+        [-1, 2],
+        containsAll([greaterThan(0), greaterThan(1)]),
+        "Expected: contains all of [<a value greater than <0>>, "
+        "<a value greater than <1>>] "
+        "Actual: [-1, 2] "
+        "Which: has no match for a value greater than <1> at index 1");
   });
 
   test('containsAllInOrder', () {

@@ -1,6 +1,16 @@
-## 0.12.1+5
+## 0.12.2+1
 
 - Updated SDK version to 2.0.0-dev.17.0
+
+## 0.12.2
+
+* Fixed `unorderedMatches` in cases where the matchers may match more than one
+  element and order of the elements doesn't line up with the order of the
+  matchers.
+
+* Add containsAll matcher for Iterables. This Matcher checks that all
+  values/matchers in an expected iterable are satisfied by an element in the
+  value without allowing the same value to satisfy multiple matchers.
 
 ## 0.12.1+4
 
