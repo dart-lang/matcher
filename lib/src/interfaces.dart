@@ -34,8 +34,6 @@ abstract class Description {
 abstract class Matcher {
   const Matcher();
 
-  /// *Necessary for matcher infrastructure and subclasses.*
-  ///
   /// Does the matching of the actual vs expected values.
   ///
   /// [item] is the actual value. [matchState] can be supplied
@@ -43,13 +41,9 @@ abstract class Matcher {
   /// costly to determine in [describeMismatch].
   bool matches(item, Map matchState);
 
-  /// *Necessary for matcher infrastructure and subclasses.*
-  ///
   /// Builds a textual description of the matcher.
   Description describe(Description description);
 
-  /// *Necessary for matcher infrastructure and subclasses.*
-  ///
   /// Builds a textual description of a specific mismatch.
   ///
   /// [item] is the value that was tested by [matches]; [matchState] is
