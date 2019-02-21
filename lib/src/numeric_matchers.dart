@@ -63,7 +63,7 @@ class _InRange extends FeatureMatcher<num> {
   const _InRange(
       this._low, this._high, this._lowMatchValue, this._highMatchValue);
 
-  bool typedMatches(value, Map matchState) {
+  bool typedMatches(num value, Map matchState) {
     if (value < _low || value > _high) {
       return false;
     }
@@ -73,7 +73,8 @@ class _InRange extends FeatureMatcher<num> {
     if (value == _high) {
       return _highMatchValue;
     }
-    return true;
+    // Value may still be outside if range if it can't be compared
+    return value > _low && value < _high;
   }
 
   Description describe(Description description) =>

@@ -1,3 +1,7 @@
+## 0.12.5
+
+- Numerical ordering matchers no longer consider `NaN` to match any comparison.
+
 ## 0.12.4
 
 - Add isCastError.
