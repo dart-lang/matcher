@@ -55,6 +55,7 @@ class _StringMatcher extends TypeMatcher {
             // ignore: deprecated_member_use
             'String');
 
+  @override
   bool matches(item, Map matchState) => item is String;
 }
 
