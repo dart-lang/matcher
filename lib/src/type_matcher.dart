@@ -5,7 +5,6 @@
 import 'having_matcher.dart';
 import 'interfaces.dart';
 
-
 /// Returns a matcher that matches objects with type [T].
 ///
 /// ```dart
