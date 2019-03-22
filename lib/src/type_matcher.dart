@@ -5,6 +5,16 @@
 import 'having_matcher.dart';
 import 'interfaces.dart';
 
+/// Returns a matcher that matches objects with type [T].
+///
+/// ```dart
+/// expect(shouldBeDuration, isA<Duration>());
+/// ```
+///
+/// Expectations can be chained on top of the type using the
+/// [TypeMatcher.having] method to add additional constraints.
+TypeMatcher<T> isA<T>() => TypeMatcher<T>();
+
 /// A [Matcher] subclass that supports validating the [Type] of the target
 /// object.
 ///
@@ -43,12 +53,16 @@ import 'interfaces.dart';
 /// ```
 class TypeMatcher<T> extends Matcher {
   final String _name;
+
+  /// Create a matcher matches instances of type [T].
+  ///
+  /// For a fluent API to create TypeMatchers see [isA].
   const TypeMatcher(
       [@Deprecated('Provide a type argument to TypeMatcher and omit the name. '
           'This argument will be removed in the next release.')
           String name])
       : _name =
-            // ignore: deprecated_member_use
+            // ignore: deprecated_member_use_from_same_package
             name;
 
   /// Returns a new [TypeMatcher] that validates the existing type as well as
@@ -69,11 +83,13 @@ class TypeMatcher<T> extends Matcher {
           Object feature(T source), String description, Object matcher) =>
       HavingMatcher(this, description, feature, matcher);
 
+  @override
   Description describe(Description description) {
     var name = _name ?? _stripDynamic(T);
     return description.add("<Instance of '$name'>");
   }
 
+  @override
   bool matches(Object item, Map matchState) => item is T;
 }
 

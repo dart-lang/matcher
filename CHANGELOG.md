@@ -1,5 +1,6 @@
 ## 0.12.5
 
+- Add `isA()` to create `TypeMatcher` instances in a more fluent way.
 - Numerical ordering matchers no longer consider `NaN` to match any comparison.
 
 ## 0.12.4

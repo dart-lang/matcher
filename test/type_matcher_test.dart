@@ -26,10 +26,11 @@ void main() {
   _test('NullThrownError', isNullThrownError, NullThrownError());
 
   group('custom `TypeMatcher`', () {
-    // ignore: deprecated_member_use
+    // ignore: deprecated_member_use_from_same_package
     _test('String', const isInstanceOf<String>(), 'hello');
     _test('String', const _StringMatcher(), 'hello');
     _test('String', const TypeMatcher<String>(), 'hello');
+    _test('String', isA<String>(), 'hello');
   });
 }
 
@@ -52,9 +53,10 @@ void _test(String name, Matcher typeMatcher, Object matchingType) {
 // Validate that existing implementations continue to work.
 class _StringMatcher extends TypeMatcher {
   const _StringMatcher() : super(
-            // ignore: deprecated_member_use
+            // ignore: deprecated_member_use_from_same_package
             'String');
 
+  @override
   bool matches(item, Map matchState) => item is String;
 }
 
