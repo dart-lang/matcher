@@ -1,7 +1,11 @@
 ## 0.12.5
 
 - Add `isA()` to create `TypeMatcher` instances in a more fluent way.
-- Numerical ordering matchers no longer consider `NaN` to match any comparison.
+- **Potentially breaking bug fix**. Ordering matchers no longer treat objects
+  with a partial ordering (such as NaN for double values) as if they had a
+  complete ordering. For instance `greaterThan` now compares with the `>`
+  operator rather not `<` and not `=`. This could cause tests which relied on
+  this bug to start failing.
 
 ## 0.12.4
 
