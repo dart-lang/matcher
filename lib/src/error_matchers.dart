@@ -7,6 +7,9 @@ import 'type_matcher.dart';
 /// A matcher for [ArgumentError].
 const isArgumentError = TypeMatcher<ArgumentError>();
 
+/// A matcher for [AssertionError].
+const isAssertionError = TypeMatcher<AssertionError>();
+
 /// A matcher for [CastError].
 const isCastError = TypeMatcher<CastError>();
 
