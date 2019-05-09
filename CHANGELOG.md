@@ -1,3 +1,7 @@
+## 0.12.6
+
+- Add `isAssertionError` type matcher.
+
 ## 0.12.5
 
 - Add `isA()` to create `TypeMatcher` instances in a more fluent way.
