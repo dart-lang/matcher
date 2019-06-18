@@ -1,3 +1,7 @@
+## 0.12.6
+
+- Update minimum Dart SDK to `2.2.0`.
+
 ## 0.12.5
 
 - Add `isA()` to create `TypeMatcher` instances in a more fluent way.
