@@ -92,7 +92,7 @@
 ## 0.12.0
 
 * Moved a number of members to the
-  [`unittest`](https://pub.dartlang.org/packages/unittest) package.
+  [`unittest`](https://pub.dev/packages/unittest) package.
   * `TestFailure`, `ErrorFormatter`, `expect`, `fail`, and 'wrapAsync'.
   * `completes`, `completion`, `throws`, and `throwsA` Matchers.
   * The `Throws` class.
