@@ -334,7 +334,7 @@ void main() {
     shouldFail(
         'x',
         pairwiseMatch(e, lessThanOrEqualTo),
-        "Expected: pairwise [a value less than or equal to <1>, "
+        "Expected: [a value less than or equal to <1>, "
         "a value less than or equal to <4>, "
         "a value less than or equal to <9>] "
         "Actual: 'x' "
@@ -342,7 +342,7 @@ void main() {
     shouldFail(
         c,
         pairwiseMatch(e, lessThanOrEqualTo),
-        "Expected: pairwise [a value less than or equal to <1>, "
+        "Expected: [a value less than or equal to <1>, "
         "a value less than or equal to <4>, "
         "a value less than or equal to <9>] "
         "Actual: [1, 2] "
@@ -352,8 +352,7 @@ void main() {
     shouldFail(
         d,
         pairwiseMatch(e, lessThan),
-        "Expected: pairwise [a value less than <1>, "
-        "a value less than <4>, "
+        "Expected: [a value less than <1>, a value less than <4>, "
         "a value less than <9>] "
         "Actual: [1, 2, 3] "
         "Which: is not a value less than <1> at index 0");
@@ -361,7 +360,7 @@ void main() {
     shouldFail(
         d,
         pairwiseMatch(e, isDouble),
-        "Expected: pairwise [double, double, double] "
+        "Expected: [double, double, double] "
         "Actual: [1, 2, 3] "
         "Which: at index 0");
     shouldFail(
@@ -373,24 +372,21 @@ void main() {
     var h = [[2, 4], [], [6, 8]];
     shouldPass(g, pairwiseMatch(f, (e) => anyOf(isEmpty, equals(e))));
     shouldFail(h, pairwiseMatch(f, (e) => anyOf(isEmpty, equals(e))),
-        "Expected: pairwise [(empty or [2, 4]), (empty or [6, 8]), "
-        "(empty or [10, 12])] "
+        "Expected: [(empty or [2, 4]), (empty or [6, 8]), (empty or [10, 12])] "
         "Actual: [[2, 4], [], [6, 8]] "
         "Which: at index 2");
     var i = [[1, 2], [3, 4], [5, 6]];
     var j = [[1, 2], [8, 4], [5, 6]];
     shouldPass(i, pairwiseMatch(f, (l) => pairwiseMatch(l, isDouble)));
     shouldFail(j, pairwiseMatch(f, (l) => pairwiseMatch(l, isDouble)),
-        "Expected: pairwise [pairwise [double, double], "
-        "pairwise [double, double], pairwise [double, double]] "
+        "Expected: [[double, double], [double, double], [double, double]] "
         "Actual: [[1, 2], [8, 4], [5, 6]] "
         "Which: at index 0 at index 1");
     shouldPass(i, pairwiseMatch(f, (l) => pairwiseMatch(l, lessThan)));
     shouldFail(j, pairwiseMatch(f, (l) => pairwiseMatch(l, lessThan)),
-        "Expected: pairwise ["
-        "pairwise [a value less than <2>, a value less than <4>], "
-        "pairwise [a value less than <6>, a value less than <8>], "
-        "pairwise [a value less than <10>, a value less than <12>]] "
+        "Expected: [[a value less than <2>, a value less than <4>], "
+        "[a value less than <6>, a value less than <8>], "
+        "[a value less than <10>, a value less than <12>]] "
         "Actual: [[1, 2], [8, 4], [5, 6]] "
         "Which: is not a value less than <6> at index 0 at index 1");
   });

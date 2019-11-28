@@ -288,6 +288,64 @@ class _PairwiseCompare<S, T> extends _IterableMatcher {
   }
 }
 
+/// A pairwise matcher for [Iterable]s.
+///
+/// For each pair of elements from the actual and expected lists in order, we
+/// check the actual element against a matcher created by applying
+/// [elementMatcher] to the expected element. The per-element matchers are
+/// created during the construction of the Matcher.
+Matcher pairwiseMatch<S, T>(Iterable<T> expected,
+        Matcher elementMatcher(T a)) =>
+    _PairwiseMatcher(expected, elementMatcher);
+
+typedef _ElementMatcher<T> = Matcher Function(T a);
+
+class _PairwiseMatcher<S, T> extends _IterableMatcher {
+  final Iterable<Matcher> _matchers;
+
+  _PairwiseMatcher(Iterable<T>_expected, _ElementMatcher<T> _elementMatcher)
+      : _matchers = _expected.map(_elementMatcher);
+
+  @override
+  bool typedMatches(Iterable item, Map matchState) {
+    if (item.length != _matchers.length) return false;
+    var iterator = item.iterator;
+    var i = 0;
+    for (var matcher in _matchers) {
+      iterator.moveNext();
+      if (!matcher.matches(iterator.current, matchState)) {
+        addStateInfo(matchState,
+            {'index': i, 'matcher': matcher, 'actual': iterator.current});
+        return false;
+      }
+      i++;
+    }
+    return true;
+  }
+
+  @override
+  Description describe(Description description) =>
+    description.addAll('[', ', ', ']', _matchers);
+
+  @override
+  Description describeTypedMismatch(Iterable item,
+      Description mismatchDescription, Map matchState, bool verbose) {
+    if (item.length != _matchers.length) {
+      return mismatchDescription
+          .add('has length ${item.length} instead of ${_matchers.length}');
+    } else {
+      return matchState["matcher"]
+          .describeMismatch(
+              matchState["actual"],
+              mismatchDescription,
+              matchState["state"],
+              verbose)
+          .add(' at index ${matchState["index"]}');
+    }
+  }
+}
+
+
 /// Matches [Iterable]s which contain an element matching every value in
 /// [expected] in any order, and may contain additional values.
 ///
