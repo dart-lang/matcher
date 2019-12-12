@@ -294,8 +294,8 @@ class _PairwiseCompare<S, T> extends _IterableMatcher {
 /// check the actual element against a matcher created by applying
 /// [elementMatcher] to the expected element. The per-element matchers are
 /// created during the construction of the Matcher.
-Matcher pairwiseMatch<S, T>(Iterable<T> expected,
-        Matcher elementMatcher(T a)) =>
+Matcher pairwiseMatch<S, T>(
+        Iterable<T> expected, Matcher elementMatcher(T a)) =>
     _PairwiseMatcher(expected, elementMatcher);
 
 typedef _ElementMatcher<T> = Matcher Function(T a);
@@ -303,7 +303,7 @@ typedef _ElementMatcher<T> = Matcher Function(T a);
 class _PairwiseMatcher<S, T> extends _IterableMatcher {
   final Iterable<Matcher> _matchers;
 
-  _PairwiseMatcher(Iterable<T>_expected, _ElementMatcher<T> _elementMatcher)
+  _PairwiseMatcher(Iterable<T> _expected, _ElementMatcher<T> _elementMatcher)
       : _matchers = _expected.map(_elementMatcher);
 
   @override
@@ -325,7 +325,7 @@ class _PairwiseMatcher<S, T> extends _IterableMatcher {
 
   @override
   Description describe(Description description) =>
-    description.addAll('[', ', ', ']', _matchers);
+      description.addAll('[', ', ', ']', _matchers);
 
   @override
   Description describeTypedMismatch(Iterable item,
@@ -335,16 +335,12 @@ class _PairwiseMatcher<S, T> extends _IterableMatcher {
           .add('has length ${item.length} instead of ${_matchers.length}');
     } else {
       return matchState["matcher"]
-          .describeMismatch(
-              matchState["actual"],
-              mismatchDescription,
-              matchState["state"],
-              verbose)
+          .describeMismatch(matchState["actual"], mismatchDescription,
+              matchState["state"], verbose)
           .add(' at index ${matchState["index"]}');
     }
   }
 }
-
 
 /// Matches [Iterable]s which contain an element matching every value in
 /// [expected] in any order, and may contain additional values.
