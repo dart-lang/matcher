@@ -295,7 +295,7 @@ class _PairwiseCompare<S, T> extends _IterableMatcher {
 /// [elementMatcher] to the expected element. The per-element matchers are
 /// created during the construction of the Matcher.
 Matcher pairwiseMatch<S, T>(
-        Iterable<T> expected, Matcher elementMatcher(T a)) =>
+        Iterable<T> expected, Matcher Function(T) elementMatcher) =>
     _PairwiseMatcher(expected, elementMatcher);
 
 typedef _ElementMatcher<T> = Matcher Function(T a);
@@ -334,10 +334,10 @@ class _PairwiseMatcher<S, T> extends _IterableMatcher {
       return mismatchDescription
           .add('has length ${item.length} instead of ${_matchers.length}');
     } else {
-      return matchState["matcher"]
-          .describeMismatch(matchState["actual"], mismatchDescription,
-              matchState["state"], verbose)
-          .add(' at index ${matchState["index"]}');
+      return matchState['matcher']
+          .describeMismatch(matchState['actual'], mismatchDescription,
+              matchState['state'], verbose)
+          .add(' at index ${matchState['index']}');
     }
   }
 }

@@ -329,39 +329,39 @@ void main() {
     var c = [1, 2];
     var d = [1, 2, 3];
     var e = [1, 4, 9];
-    var squareRoot = (int e) => predicate((a) => a * a == e, "square root of");
-    var isDouble = (int e) => predicate((a) => a + a == e, "double");
+    var squareRoot = (int e) => predicate((a) => a * a == e, 'square root of');
+    var isDouble = (int e) => predicate((a) => a + a == e, 'double');
     shouldFail(
         'x',
         pairwiseMatch(e, lessThanOrEqualTo),
-        "Expected: [a value less than or equal to <1>, "
-            "a value less than or equal to <4>, "
-            "a value less than or equal to <9>] "
-            "Actual: 'x' "
-            "Which: not an <Instance of \'Iterable\'>");
+        'Expected: [a value less than or equal to <1>, '
+            'a value less than or equal to <4>, '
+            'a value less than or equal to <9>] '
+            "Actual: \'x\' "
+            'Which: not an <Instance of \'Iterable\'>');
     shouldFail(
         c,
         pairwiseMatch(e, lessThanOrEqualTo),
-        "Expected: [a value less than or equal to <1>, "
-        "a value less than or equal to <4>, "
-        "a value less than or equal to <9>] "
-        "Actual: [1, 2] "
-        "Which: has length 2 instead of 3");
+        'Expected: [a value less than or equal to <1>, '
+        'a value less than or equal to <4>, '
+        'a value less than or equal to <9>] '
+        'Actual: [1, 2] '
+        'Which: has length 2 instead of 3');
     shouldPass(d, pairwiseMatch(e, lessThanOrEqualTo));
     shouldFail(
         d,
         pairwiseMatch(e, lessThan),
-        "Expected: [a value less than <1>, a value less than <4>, "
-        "a value less than <9>] "
-        "Actual: [1, 2, 3] "
-        "Which: is not a value less than <1> at index 0");
+        'Expected: [a value less than <1>, a value less than <4>, '
+        'a value less than <9>] '
+        'Actual: [1, 2, 3] '
+        'Which: is not a value less than <1> at index 0');
     shouldPass(d, pairwiseMatch(e, squareRoot));
     shouldFail(
         d,
         pairwiseMatch(e, isDouble),
-        "Expected: [double, double, double] "
-        "Actual: [1, 2, 3] "
-        "Which: at index 0");
+        'Expected: [double, double, double] '
+        'Actual: [1, 2, 3] '
+        'Which: at index 0');
     shouldFail('not an iterable', pairwiseMatch(e, isDouble),
         endsWith('not an <Instance of \'Iterable\'>'));
     var f = [
@@ -383,9 +383,9 @@ void main() {
     shouldFail(
         h,
         pairwiseMatch(f, (e) => anyOf(isEmpty, equals(e))),
-        "Expected: [(empty or [2, 4]), (empty or [6, 8]), (empty or [10, 12])] "
-        "Actual: [[2, 4], [], [6, 8]] "
-        "Which: at index 2");
+        'Expected: [(empty or [2, 4]), (empty or [6, 8]), (empty or [10, 12])] '
+        'Actual: [[2, 4], [], [6, 8]] '
+        'Which: at index 2');
     var i = [
       [1, 2],
       [3, 4],
@@ -400,18 +400,18 @@ void main() {
     shouldFail(
         j,
         pairwiseMatch(f, (l) => pairwiseMatch(l, isDouble)),
-        "Expected: [[double, double], [double, double], [double, double]] "
-        "Actual: [[1, 2], [8, 4], [5, 6]] "
-        "Which: at index 0 at index 1");
+        'Expected: [[double, double], [double, double], [double, double]] '
+        'Actual: [[1, 2], [8, 4], [5, 6]] '
+        'Which: at index 0 at index 1');
     shouldPass(i, pairwiseMatch(f, (l) => pairwiseMatch(l, lessThan)));
     shouldFail(
         j,
         pairwiseMatch(f, (l) => pairwiseMatch(l, lessThan)),
-        "Expected: [[a value less than <2>, a value less than <4>], "
-        "[a value less than <6>, a value less than <8>], "
-        "[a value less than <10>, a value less than <12>]] "
-        "Actual: [[1, 2], [8, 4], [5, 6]] "
-        "Which: is not a value less than <6> at index 0 at index 1");
+        'Expected: [[a value less than <2>, a value less than <4>], '
+        '[a value less than <6>, a value less than <8>], '
+        '[a value less than <10>, a value less than <12>]] '
+        'Actual: [[1, 2], [8, 4], [5, 6]] '
+        'Which: is not a value less than <6> at index 0 at index 1');
   });
 
   test('isEmpty', () {
