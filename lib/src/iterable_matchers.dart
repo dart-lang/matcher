@@ -288,12 +288,11 @@ class _PairwiseCompare<S, T> extends _IterableMatcher {
   }
 }
 
-/// A pairwise matcher for [Iterable]s.
+/// Returns a pairwise matcher for [Iterable]s.
 ///
-/// For each pair of elements from the actual and expected lists in order, we
-/// check the actual element against a matcher created by applying
-/// [elementMatcher] to the expected element. The per-element matchers are
-/// created during the construction of the Matcher.
+/// The [elementMatcher] function, taking an expected argument and returning
+/// a Matcher for the corresponding actual element, is applied to each element
+/// of [expected] once, during the construction of the pairwise matcher.
 Matcher pairwiseMatch<S, T>(
         Iterable<T> expected, Matcher Function(T) elementMatcher) =>
     _PairwiseMatcher(expected, elementMatcher);
