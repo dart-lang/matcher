@@ -185,7 +185,7 @@ Matcher hasLength(matcher) => _HasLength(wrapMatcher(matcher));
 
 class _HasLength extends Matcher {
   final Matcher _matcher;
-  const _HasLength([Matcher matcher]) : _matcher = matcher;
+  const _HasLength(Matcher matcher) : _matcher = matcher;
 
   @override
   bool matches(item, Map matchState) {
