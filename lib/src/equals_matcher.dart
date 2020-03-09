@@ -20,7 +20,8 @@ Matcher equals(expected, [int limit = 100]) => expected is String
     ? _StringEqualsMatcher(expected)
     : _DeepMatcher(expected, limit);
 
-typedef _RecursiveMatcher = List<String>? Function(Object, Object, String, int);
+typedef _RecursiveMatcher = List<String>? Function(
+    Object?, Object?, String, int);
 
 /// A special equality matcher for strings.
 class _StringEqualsMatcher extends FeatureMatcher<String> {
@@ -104,7 +105,7 @@ class _DeepMatcher extends Matcher {
   _DeepMatcher(this._expected, [int limit = 1000]) : _limit = limit;
 
   // Returns a pair (reason, location) if not equal, or null if equal.
-  List<String>? _compareIterables(Iterable expected, Object actual,
+  List<String>? _compareIterables(Iterable expected, Object? actual,
       _RecursiveMatcher matcher, int depth, String location) {
     if (actual is Iterable) {
       var expectedIterator = expected.iterator;
@@ -133,7 +134,7 @@ class _DeepMatcher extends Matcher {
   }
 
   // Returns a pair (reason, location) if not equal, or null if equal.
-  List<String>? _compareSets(Set expected, Object actual,
+  List<String>? _compareSets(Set expected, Object? actual,
       _RecursiveMatcher matcher, int depth, String location) {
     if (actual is Iterable) {
       var other = actual.toSet();
@@ -159,7 +160,7 @@ class _DeepMatcher extends Matcher {
 
   // Returns a pair (reason, location) if not equal, or null if equal.
   List<String>? _recursiveMatch(
-      Object expected, Object actual, String location, int depth) {
+      Object? expected, Object? actual, String location, int depth) {
     // If the expected value is a matcher, try to match it.
     if (expected is Matcher) {
       var matchState = {};
