@@ -1,6 +1,9 @@
 ## 0.12.7-dev
 
-- Update minimum Dart SDK to `2.4.0`.
+- Migrate to NNBD.
+  - Apis have been updated to express intent of the existing code and how it
+    handled nulls.
+- Update minimum Dart SDK to `2.8.0-dev.10`.
 
 ## 0.12.6
 
