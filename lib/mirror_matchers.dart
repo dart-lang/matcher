@@ -70,6 +70,7 @@ class _HasProperty extends Matcher {
           .add('has property "$_name" with value ')
           .addDescriptionOf(matchState['value']);
       var innerDescription = StringDescription();
+      matchState['state'] ??= {};
       _matcher?.describeMismatch(matchState['value'], innerDescription,
           matchState['state'] as Map, verbose);
       if (innerDescription.length > 0) {

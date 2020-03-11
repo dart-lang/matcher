@@ -18,9 +18,38 @@ dev_dependencies:
 
 dependency_overrides:
   test: ^1.12.0
-  test_api: ^0.2.14
+  # test_api: ^0.2.14
   test_core: ^0.3.0
+  boolean_selector:
+    git:
+      url: git://github.com/dart-lang/boolean_selector.git
+      ref: null_safety
+  charcode:
+    git:
+      url: git://github.com/dart-lang/charcode.git
+      ref: null_safety
+  path:
+    git:
+      url: git://github.com/dart-lang/path.git
+      ref: null_safety_insert_workaround
+  source_span:
+    git:
+      url: git://github.com/dart-lang/source_span.git
+      ref: null_safety
   stack_trace:
     git:
       url: git://github.com/dart-lang/stack_trace.git
       ref: null_safety
+  string_scanner:
+    git:
+      url: git://github.com/dart-lang/string_scanner.git
+      ref: null_safety
+  term_glyph:
+    git:
+      url: git://github.com/dart-lang/term_glyph.git
+      ref: null_safety
+  test_api:
+    git:
+      url: git://github.com/dart-lang/test.git
+      ref: null_safety
+      path: pkgs/test_api
