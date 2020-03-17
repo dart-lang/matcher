@@ -167,7 +167,7 @@ class _UnorderedMatches extends _IterableMatcher {
     }
     // The index into `values` matched with each matcher or `null` if no value
     // has been matched yet.
-    var matched = List<int?>(_expected.length);
+    var matched = List<int?>.filled(_expected.length, null);
     for (var valueIndex = 0; valueIndex < values.length; valueIndex++) {
       _findPairing(edges, valueIndex, matched);
     }
