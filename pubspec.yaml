@@ -20,7 +20,6 @@ dependency_overrides:
   test: ^1.12.0
   # test_api: ^0.2.14
   test_core: ^0.3.0
-  dependency_overrides:
   async:
     git:
       url: git://github.com/dart-lang/async.git
