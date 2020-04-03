@@ -1,9 +1,10 @@
-## 0.12.7-dev
+## 0.12.7
 
 - Migrate to NNBD.
   - Apis have been updated to express intent of the existing code and how it
     handled nulls.
 - Update minimum Dart SDK to `2.8.0-dev.10`.
+- Deprecate the `mirror_matchers.dart` library.
 
 ## 0.12.6
 
