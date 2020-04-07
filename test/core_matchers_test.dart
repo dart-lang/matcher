@@ -56,7 +56,7 @@ void main() {
   });
 
   test('equals with null', () {
-    var a; // null
+    Object a; // null
     var b = {};
     shouldPass(a, equals(a));
     shouldFail(
