@@ -99,7 +99,7 @@ class _StringEqualsMatcher extends FeatureMatcher<String> {
 }
 
 class _DeepMatcher extends Matcher {
-  final Object _expected;
+  final Object? _expected;
   final int _limit;
 
   _DeepMatcher(this._expected, [int limit = 1000]) : _limit = limit;
