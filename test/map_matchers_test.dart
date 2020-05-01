@@ -56,13 +56,6 @@ void main() {
     );
     shouldFail(
       {null: null},
-      containsPair('2', 'b'),
-      "Expected: contains pair '2' => 'b' "
-      'Actual: {null: null} '
-      "Which:  doesn't contain key '2'",
-    );
-    shouldFail(
-      {null: null},
       containsPair('not null', null),
       "Expected: contains pair 'not null' => <null> "
       'Actual: {null: null} '
