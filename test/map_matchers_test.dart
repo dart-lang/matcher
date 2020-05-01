@@ -18,6 +18,7 @@ void main() {
   test('containsPair', () {
     shouldPass({'a': 1, 'null': null}, containsPair('a', 1));
     shouldPass({'a': 1, 'null': null}, containsPair('null', null));
+    shouldPass({null: null}, containsPair(null, null));
     shouldFail(
       {'a': 1, 'null': null},
       containsPair('a', 2),
@@ -52,6 +53,35 @@ void main() {
       "Expected: contains pair '2' => 'b' "
       "Actual: {'a': 1, 'null': null} "
       "Which:  doesn't contain key '2'",
+    );
+    shouldFail(
+      {null: null},
+      containsPair('2', 'b'),
+      "Expected: contains pair '2' => 'b' "
+      'Actual: {null: null} '
+      "Which:  doesn't contain key '2'",
+    );
+    shouldFail(
+      {null: null},
+      containsPair('not null', null),
+      "Expected: contains pair 'not null' => <null> "
+      'Actual: {null: null} '
+      "Which:  doesn't contain key 'not null'",
+    );
+    shouldFail(
+      {null: null},
+      containsPair(null, 'not null'),
+      'Expected: contains pair <null> => \'not null\' '
+      'Actual: {null: null} '
+      'Which: contains key <null> but with value not an '
+      '<Instance of \'String\'>',
+    );
+    shouldFail(
+      {null: null},
+      containsPair('not null', 'not null'),
+      'Expected: contains pair \'not null\' => \'not null\' '
+      'Actual: {null: null} '
+      'Which:  doesn\'t contain key \'not null\' ',
     );
   });
 }
