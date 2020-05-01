@@ -9,7 +9,7 @@ import 'util.dart';
 Matcher containsValue(value) => _ContainsValue(value);
 
 class _ContainsValue extends Matcher {
-  final Object _value;
+  final Object? _value;
 
   const _ContainsValue(this._value);
 
