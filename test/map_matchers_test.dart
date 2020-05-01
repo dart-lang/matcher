@@ -9,8 +9,8 @@ void main() {
     shouldPass({'a': 1}, contains('a'));
     shouldFail(
       {'a': 1},
-      containsValue(2),
-      'Expected: contains value <2> '
+      contains(2),
+      'Expected: contains <2> '
       'Actual: {\'a\': 1}',
     );
   });
