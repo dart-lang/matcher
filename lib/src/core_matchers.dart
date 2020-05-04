@@ -233,7 +233,7 @@ class _HasLength extends Matcher {
 Matcher contains(expected) => _Contains(expected);
 
 class _Contains extends Matcher {
-  final Object _expected;
+  final Object? _expected;
 
   const _Contains(this._expected);
 
