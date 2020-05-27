@@ -14,12 +14,12 @@ void main() {
 
   test('failure', () {
     shouldFail(
-      RangeError.range(-1, 1, 10),
+      CustomRangeError.range(-1, 1, 10),
       _rangeMatcher,
-      _matchesIgnoringWhitespace(r"^Expected: <Instance of 'RangeError'> with "
-          r"`message`: contains 'details' and `start`: null and `end`: null "
-          r'Actual: RangeError:<RangeError: Invalid value: [^>]+> '
-          r"Which: has `message` with value 'Invalid value'$"),
+      "Expected: <Instance of 'RangeError'> with "
+      "`message`: contains 'details' and `start`: null and `end`: null "
+      'Actual: CustomRangeError:<RangeError: Invalid value: details> '
+      "Which: has `message` with value 'Invalid value'",
     );
   });
 
@@ -90,10 +90,10 @@ Matcher _hasPrice(matcher) =>
 Matcher _badCustomMatcher() => const TypeMatcher<Widget>()
     .having((e) => throw Exception('bang'), 'feature', {1: 'a'});
 
-/// Similar to [equalsIgnoringWhitespace] but matches against a regular
-/// expression.
-Matcher _matchesIgnoringWhitespace(String reString) {
-  final re = RegExp(collapseWhitespace(reString));
-  return predicate(
-      (actualString) => re.hasMatch(collapseWhitespace(actualString)));
+class CustomRangeError extends RangeError {
+  CustomRangeError.range(num invalidValue, int minValue, int maxValue)
+      : super.range(invalidValue, minValue, maxValue);
+
+  @override
+  String toString() => 'RangeError: Invalid value: details';
 }
