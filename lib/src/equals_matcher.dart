@@ -278,7 +278,7 @@ class _DeepMatcher extends Matcher {
           .addDescriptionOf(mismatch.actual);
       if (mismatch.describeProblem != null) {
         mismatchDescription
-            .add(' ${mismatch.instead ? 'instead of ' : 'which'} ');
+            .add(' ${mismatch.instead ? 'instead of' : 'which'} ');
         mismatch.describeProblem(mismatchDescription, verbose);
       }
     } else {
