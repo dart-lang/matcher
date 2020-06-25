@@ -307,7 +307,7 @@ class _Mismatch {
   final Object actual;
 
   /// Callback that can create a detailed description of the problem.
-  final void Function(Description description, bool verbose) describeProblem;
+  final void Function(Description, bool verbose) describeProblem;
 
   /// If `true`, [describeProblem] describes the expected value, so when the
   /// final mismatch description is pieced together, it will be preceded by
