@@ -299,12 +299,22 @@ class _DeepMatcher extends Matcher {
 }
 
 class _Mismatch {
+  /// A human-readable description of the location within the collection where
+  /// the mismatch occurred.
   final String location;
 
+  /// The actual value found at [location].
   final Object actual;
 
+  /// Callback that can create a detailed description of the problem.
   final void Function(Description description, bool verbose) describeProblem;
 
+  /// If `true`, [describeProblem] describes the expected value, so when the
+  /// final mismatch description is pieced together, it will be preceded by
+  /// `instead of` (e.g. `at location [2] is <3> instead of <4>`).  If `false`,
+  /// [describeProblem] is a problem description from a sub-matcher, so when the
+  /// final mismatch description is pieced together, it will be preceded by
+  /// `which` (e.g. `at location [2] is <foo> which has length of 3`).
   final bool instead;
 
   _Mismatch(this.location, this.actual, this.describeProblem,
