@@ -7,7 +7,7 @@ description: >-
 homepage: https://github.com/dart-lang/matcher
 
 environment:
-  sdk: '>=2.4.0 <3.0.0'
+  sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
   stack_trace: ^1.2.0
