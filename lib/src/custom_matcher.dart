@@ -35,14 +35,15 @@ class CustomMatcher extends Matcher {
   final String _featureName;
   final Matcher _matcher;
 
-  CustomMatcher(this._featureDescription, this._featureName, matcher)
-      : _matcher = wrapMatcher(matcher);
+  CustomMatcher(
+      this._featureDescription, this._featureName, Object? valueOrMatcher)
+      : _matcher = wrapMatcher(valueOrMatcher);
 
   /// Override this to extract the interesting feature.
-  Object? featureValueOf(actual) => actual;
+  Object? featureValueOf(Object? actual) => actual;
 
   @override
-  bool matches(item, Map matchState) {
+  bool matches(Object? item, Map matchState) {
     try {
       var f = featureValueOf(item);
       if (_matcher.matches(f, matchState)) return true;
@@ -69,7 +70,7 @@ class CustomMatcher extends Matcher {
 
   @override
   Description describeMismatch(
-      item, Description mismatchDescription, Map matchState, bool verbose) {
+      Object? item, Description mismatchDescription, Map matchState, bool verbose) {
     if (matchState['custom.exception'] != null) {
       mismatchDescription
           .add('threw ')
