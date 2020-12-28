@@ -39,7 +39,7 @@ abstract class Matcher {
   /// [item] is the actual value. [matchState] can be supplied
   /// and may be used to add details about the mismatch that are too
   /// costly to determine in [describeMismatch].
-  bool matches(Object? item, Map matchState);
+  bool matches(dynamic item, Map matchState);
 
   /// Builds a textual description of the matcher.
   Description describe(Description description);
