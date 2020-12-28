@@ -69,8 +69,8 @@ class CustomMatcher extends Matcher {
       description.add(_featureDescription).add(' ').addDescriptionOf(_matcher);
 
   @override
-  Description describeMismatch(
-      Object? item, Description mismatchDescription, Map matchState, bool verbose) {
+  Description describeMismatch(Object? item, Description mismatchDescription,
+      Map matchState, bool verbose) {
     if (matchState['custom.exception'] != null) {
       mismatchDescription
           .add('threw ')

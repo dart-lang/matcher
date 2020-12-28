@@ -63,8 +63,8 @@ class _HasProperty extends Matcher {
   }
 
   @override
-  Description describeMismatch(
-      Object? item, Description mismatchDescription, Map matchState, bool verbose) {
+  Description describeMismatch(Object? item, Description mismatchDescription,
+      Map matchState, bool verbose) {
     var reason = matchState['reason'];
     if (reason != null) {
       mismatchDescription.add(reason as String);

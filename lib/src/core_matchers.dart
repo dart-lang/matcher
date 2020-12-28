@@ -249,8 +249,8 @@ class _Contains extends Matcher {
       description.add('contains ').addDescriptionOf(_expected);
 
   @override
-  Description describeMismatch(
-      Object? item, Description mismatchDescription, Map matchState, bool verbose) {
+  Description describeMismatch(Object? item, Description mismatchDescription,
+      Map matchState, bool verbose) {
     if (item is String || item is Iterable || item is Map) {
       return super
           .describeMismatch(item, mismatchDescription, matchState, verbose);
