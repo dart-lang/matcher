@@ -17,3 +17,6 @@ dev_dependencies:
   test: any
   test_api: any
   test_core: any
+
+dependency_overrides:
+  test_api: any
