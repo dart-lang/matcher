@@ -25,6 +25,6 @@ why the test failed. For instance compare the failures between
 // expect(someList, hasLength(1));
   Expected: an object with length of <1>
     Actual: ['expected value', 'unexpected value']
-     Which: has length of <0>
+     Which: has length of <2>
 
 ```
