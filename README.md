@@ -18,13 +18,13 @@ why the test failed. For instance compare the failures between
 ```
 // expect(someList.length, 1);
   Expected: <1>
-    Actual: <0>
+    Actual: <2>
 ```
 
 ```
 // expect(someList, hasLength(1));
   Expected: an object with length of <1>
-    Actual: []
+    Actual: ['expected value', 'unexpected value']
      Which: has length of <0>
 
 ```
