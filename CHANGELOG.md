@@ -1,7 +1,6 @@
 ## 0.12.13
 
 * Require Dart 2.17 or greater.
-* Add `isTypeError`
 * Make `isCastError` no longer depend on the deprecated `CastError` type.
 
 ## 0.12.12

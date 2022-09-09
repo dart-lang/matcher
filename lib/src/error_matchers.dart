@@ -9,7 +9,7 @@ const isArgumentError = TypeMatcher<ArgumentError>();
 
 /// A matcher for [TypeError].
 @Deprecated('CastError has been deprecated in favor of TypeError. ')
-const isCastError = isTypeError;
+const isCastError = TypeMatcher<TypeError>();
 
 /// A matcher for [ConcurrentModificationError].
 const isConcurrentModificationError =
@@ -35,9 +35,6 @@ const isRangeError = TypeMatcher<RangeError>();
 
 /// A matcher for [StateError].
 const isStateError = TypeMatcher<StateError>();
-
-/// A matcher for [TypeError].
-const isTypeError = TypeMatcher<TypeError>();
 
 /// A matcher for [UnimplementedError].
 const isUnimplementedError = TypeMatcher<UnimplementedError>();
