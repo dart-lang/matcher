@@ -384,12 +384,15 @@ class _ContainsOnce extends _IterableMatcher {
       for (var value in item)
         if (matcher.matches(value, matchState)) value,
     ];
-    if (matches.length == 1) return null;
-    if (matches.length == 0)
+    if (matches.length == 1) {
+      return null;
+    }
+    if (matches.isEmpty) {
       return StringDescription()
           .add('did not find a value matching ')
           .addDescriptionOf(matcher)
           .toString();
+    }
     return StringDescription()
         .add('expected only one value matching ')
         .addDescriptionOf(matcher)
