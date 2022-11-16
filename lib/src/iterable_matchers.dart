@@ -380,10 +380,10 @@ class _ContainsOnce extends _IterableMatcher {
 
   String? _test(Iterable item, Map matchState) {
     var matcher = wrapMatcher(_expected);
-    var matches = [];
-    for (var value in item) {
-      if (matcher.matches(value, matchState)) matches.add(value);
-    }
+    var matches = [
+      for (var value in item)
+        if (matcher.matches(value, matchState)) value,
+    ];
     if (matches.length == 1) return null;
     if (matches.length == 0)
       return StringDescription()
