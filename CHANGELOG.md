@@ -1,3 +1,8 @@
+## 0.12.14
+
+* Deprecate `isCyclicInitializationError` and `NullThrownError`. These errors
+  will be removed from the SDK. Update them to catch more general errors.
+
 ## 0.12.13
 
 * Require Dart 2.17 or greater.

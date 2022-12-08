@@ -16,7 +16,10 @@ const isConcurrentModificationError =
     TypeMatcher<ConcurrentModificationError>();
 
 /// A matcher for [CyclicInitializationError].
-const isCyclicInitializationError = TypeMatcher<CyclicInitializationError>();
+@Deprecated(
+    'CyclicInitializationError is deprecated and will be removed in Dart 3. '
+    'Use `isA<Error>()` instead.')
+const isCyclicInitializationError = TypeMatcher<Error>();
 
 /// A matcher for [Exception].
 const isException = TypeMatcher<Exception>();
@@ -28,6 +31,8 @@ const isFormatException = TypeMatcher<FormatException>();
 const isNoSuchMethodError = TypeMatcher<NoSuchMethodError>();
 
 /// A matcher for [NullThrownError].
+@Deprecated('NullThrownError is deprecated and will be removed in Dart 3. '
+    'Use `isA<TypeError>()` instead.')
 const isNullThrownError = TypeMatcher<NullThrownError>();
 
 /// A matcher for [RangeError].
