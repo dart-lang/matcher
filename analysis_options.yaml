@@ -29,4 +29,3 @@ linter:
     - unnecessary_lambdas
     - unnecessary_parenthesis
     - unnecessary_statements
-    - use_super_parameters

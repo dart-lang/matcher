@@ -117,9 +117,8 @@ Matcher _badCustomMatcher() => const TypeMatcher<Widget>()
     .having((e) => throw Exception('bang'), 'feature', {1: 'a'});
 
 class CustomRangeError extends RangeError {
-  CustomRangeError.range(
-      super.invalidValue, int super.minValue, int super.maxValue)
-      : super.range();
+  CustomRangeError.range(invalidValue, int minValue, int maxValue)
+      : super.range(invalidValue, minValue, maxValue);
 
   @override
   String toString() => 'RangeError: Invalid value: details';
