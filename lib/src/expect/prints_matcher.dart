@@ -4,7 +4,6 @@
 
 import 'dart:async';
 
-
 import '../description.dart';
 import '../interfaces.dart';
 import '../util.dart';

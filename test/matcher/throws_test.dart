@@ -219,7 +219,7 @@ void main() {
 
       test("with a closure that returns a Future that doesn't throw", () async {
         var monitor = await TestCaseMonitor.run(() {
-          expect( Future.value, throwsA('oh no'));
+          expect(Future.value, throwsA('oh no'));
         });
 
         expectTestFailed(

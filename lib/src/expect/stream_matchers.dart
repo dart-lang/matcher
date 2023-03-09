@@ -144,7 +144,7 @@ StreamMatcher emitsAnyOf(Iterable matchers) {
       var failureMessages = <String>[];
       for (var i = 0; i < matchers.length; i++) {
         var message = 'failed to ${streamMatchers[i].description}';
-        if ((failures[i])!.isNotEmpty) {
+        if (failures[i]!.isNotEmpty) {
           message += message.contains('\n') ? '\n' : ' ';
           message += 'because it ${failures[i]}';
         }
