@@ -16,6 +16,7 @@ export 'src/expect/expect_async.dart'
         Func4,
         Func5,
         Func6,
+        expectAsync,
         expectAsync0,
         expectAsync1,
         expectAsync2,
