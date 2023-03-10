@@ -15,6 +15,7 @@ class _ContainsValue extends Matcher {
 
   @override
   bool matches(Object? item, Map matchState) =>
+      // ignore: avoid_dynamic_calls
       (item as dynamic).containsValue(_value);
   @override
   Description describe(Description description) =>
@@ -34,7 +35,9 @@ class _ContainsMapping extends Matcher {
 
   @override
   bool matches(Object? item, Map matchState) =>
+      // ignore: avoid_dynamic_calls
       (item as dynamic).containsKey(_key) &&
+      // ignore: avoid_dynamic_calls
       _valueMatcher.matches(item[_key], matchState);
 
   @override
@@ -49,6 +52,7 @@ class _ContainsMapping extends Matcher {
   @override
   Description describeMismatch(Object? item, Description mismatchDescription,
       Map matchState, bool verbose) {
+    // ignore: avoid_dynamic_calls
     if (!(item as dynamic).containsKey(_key)) {
       return mismatchDescription
           .add(" doesn't contain key ")
@@ -59,7 +63,11 @@ class _ContainsMapping extends Matcher {
           .addDescriptionOf(_key)
           .add(' but with value ');
       _valueMatcher.describeMismatch(
-          item[_key], mismatchDescription, matchState, verbose);
+          // ignore: avoid_dynamic_calls
+          item[_key],
+          mismatchDescription,
+          matchState,
+          verbose);
       return mismatchDescription;
     }
   }

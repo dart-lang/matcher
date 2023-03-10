@@ -73,7 +73,7 @@ class Throws extends AsyncMatcher {
   // function.
   @override
   dynamic /*FutureOr<String>*/ matchAsync(Object? item) {
-    if (item is! Function && item is! Future) {
+    if (item is! Function() && item is! Future) {
       return 'was not a Function or Future';
     }
 
@@ -82,7 +82,7 @@ class Throws extends AsyncMatcher {
     }
 
     try {
-      item as Function;
+      item as Function();
       var value = item();
       if (value is Future) {
         return _matchFuture(value, 'returned a Future that emitted ');

@@ -2,6 +2,8 @@
 
 * Add `package:matcher/expect.dart` library. Copies the implementation of
   `expect` and the asynchronous matchers from `package:test`.
+* Add some explicit casts to remove some dynamic calls. There remain a large
+  number of intentionally dynamic calls.
 
 ## 0.12.14
 
