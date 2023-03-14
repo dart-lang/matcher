@@ -63,8 +63,7 @@ void main() {
             endsWith('>\n'
                 "   Which: printed 'Hello, world!\\n'\n"
                 "                    ''\n"
-                '            which does not contain \'Goodbye\'\n'
-                )
+                '            which does not contain \'Goodbye\'\n')
           ]));
     });
 
@@ -81,8 +80,7 @@ void main() {
                 '  Actual: <'),
             endsWith('>\n'
                 '   Which: printed nothing\n'
-                '            which does not contain \'Goodbye\'\n'
-                )
+                '            which does not contain \'Goodbye\'\n')
           ]));
     });
 
