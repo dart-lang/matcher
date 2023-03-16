@@ -103,7 +103,7 @@ void main() {
             r'  Actual: <Closure.*>'
             r'   Which: threw StateError:<Bad state: X>'));
     shouldFail('not a function', returnsNormally,
-        contains('not an <Instance of \'Function\'>'));
+        contains('not an <Instance of \'() => dynamic\'>'));
   });
 
   test('hasLength', () {
