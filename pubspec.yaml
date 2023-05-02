@@ -22,3 +22,4 @@ dev_dependencies:
 
 dependency_overrides:
   test: 1.24.2
+  test_api: 0.5.2
