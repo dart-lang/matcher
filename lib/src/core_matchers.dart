@@ -295,7 +295,7 @@ class _In<T> extends FeatureMatcher<T> {
 ///
 /// For example:
 ///
-///     expect(result, predicate<num>((v) => (v % 2) == 0, 'is even'));
+///     expect(actual, predicate<num>((v) => (v % 2) == 0, 'is even'));
 ///
 /// Use this method when a value is checked for one conceptual property
 /// described in [description].
