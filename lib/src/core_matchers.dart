@@ -298,7 +298,7 @@ class _In<T> extends FeatureMatcher<T> {
 ///     expect(actual, predicate<num>((v) => (v % 2) == 0, 'is even'));
 ///
 /// Use this method when a value is checked for one conceptual property
-/// described in [description].
+/// described by [description].
 ///
 /// If the value can be rejected for than one reason prefer using [isA] and the
 /// [TypeMatcher.having] API to build up a matcher with output that can
