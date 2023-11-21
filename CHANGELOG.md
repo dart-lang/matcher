@@ -1,5 +1,8 @@
 ## 0.12.17-wip
 
+* Add some explicit casts to remove some dynamic calls. There remain a large
+  number of intentionally dynamic calls.
+
 ## 0.12.16
 
 * Expand bounds on `test_api` dependency to allow the next breaking release
@@ -9,8 +12,6 @@
 
 * Add `package:matcher/expect.dart` library. Copies the implementation of
   `expect` and the asynchronous matchers from `package:test`.
-* Add some explicit casts to remove some dynamic calls. There remain a large
-  number of intentionally dynamic calls.
 
 ## 0.12.14
 
