@@ -300,8 +300,8 @@ class _In<T> extends FeatureMatcher<T> {
 /// Use this method when a value is checked for one conceptual property
 /// described by [description].
 ///
-/// If the value can be rejected for than one reason prefer using [isA] and the
-/// [TypeMatcher.having] API to build up a matcher with output that can
+/// If the value can be rejected for more than one reason prefer using [isA] and
+/// the [TypeMatcher.having] API to build up a matcher with output that can
 /// distinquish between them.
 ///
 /// Using an explicit generict argument allows a passed function literal to have
