@@ -306,7 +306,7 @@ class _In<T> extends FeatureMatcher<T> {
 ///
 /// Using an explicit generict argument allows a passed function literal to have
 /// an inferred argument type of [T], and values of the wrong type will be
-/// rejected with an informative meessage.
+/// rejected with an informative message.
 Matcher predicate<T>(bool Function(T) f,
         [String description = 'satisfies function']) =>
     _Predicate(f, description);

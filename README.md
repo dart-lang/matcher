@@ -257,10 +257,10 @@ why the test failed. For instance compare the failures between
 ### Prefer TypeMatcher to predicate if the match can fail in multiple ways
 
 The `predicate` utility is a convenient shortcut for testing an arbitrary
-(synchronous) property of a value, but it discards context and the failures are
-opaque. If a value could be rejected by the matcher for more than one reason the
-different failure modes cannot be distinguished in the output. Using
-`isA<SomeType>()` and the `TypeMatcher.having` API to extract and test derived
-properties in a structured way brings the context of that structure through to
-failure messages, and failures for differing reasons will have more specific
-output.
+(synchronous) property of a value, but it discards context and failures are
+opaque. Different failure modes cannot be distinguished in the output which is
+determined by a single "description" argument. Using `isA<SomeType>()` and the
+`TypeMatcher.having` API to extract and test derived properties in a structured
+way brings the context of that structure through to failure messages, so
+failures for different reasons will have distinguishable and actionable failure
+messages.
