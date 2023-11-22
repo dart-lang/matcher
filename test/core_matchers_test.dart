@@ -96,6 +96,7 @@ void main() {
 
   test('returnsNormally', () {
     shouldPass(doesNotThrow, returnsNormally);
+    shouldPass(doesNotThrowGeneric, returnsNormally);
     shouldFail(
         doesThrow,
         returnsNormally,
@@ -103,7 +104,7 @@ void main() {
             r'  Actual: <Closure.*>'
             r'   Which: threw StateError:<Bad state: X>'));
     shouldFail('not a function', returnsNormally,
-        contains('not an <Instance of \'() => dynamic\'>'));
+        contains('not an <Instance of \'Function\'>'));
   });
 
   test('hasLength', () {
