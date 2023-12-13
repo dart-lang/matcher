@@ -1,6 +1,7 @@
-## 0.12.17
+## 0.12.16+1
 
 * Require Dart 3.0
+* Support latest version of `package:test_api`.
 
 ## 0.12.16
 
