@@ -28,6 +28,7 @@ void shouldPass(Object? value, Matcher matcher) {
 }
 
 void doesNotThrow() {}
+void doesNotThrowGeneric<T>() {}
 void doesThrow() {
   throw StateError('X');
 }
