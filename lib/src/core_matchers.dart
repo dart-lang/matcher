@@ -14,7 +14,9 @@ class _Empty extends Matcher {
   const _Empty();
 
   @override
-  bool matches(Object? item, Map matchState) => (item as dynamic).isEmpty;
+  bool matches(Object? item, Map matchState) =>
+      // ignore: avoid_dynamic_calls
+      (item as dynamic).isEmpty;
 
   @override
   Description describe(Description description) => description.add('empty');
@@ -27,7 +29,9 @@ class _NotEmpty extends Matcher {
   const _NotEmpty();
 
   @override
-  bool matches(Object? item, Map matchState) => (item as dynamic).isNotEmpty;
+  bool matches(Object? item, Map matchState) =>
+      // ignore: avoid_dynamic_calls
+      (item as dynamic).isNotEmpty;
 
   @override
   Description describe(Description description) => description.add('non-empty');
@@ -150,6 +154,7 @@ class _ReturnsNormally extends FeatureMatcher<Function> {
   @override
   bool typedMatches(Function f, Map matchState) {
     try {
+      // ignore: avoid_dynamic_calls
       f();
       return true;
     } catch (e, s) {
@@ -190,6 +195,7 @@ class _HasLength extends Matcher {
   @override
   bool matches(Object? item, Map matchState) {
     try {
+      // ignore: avoid_dynamic_calls
       final length = (item as dynamic).length;
       return _matcher.matches(length, matchState);
     } catch (e) {
@@ -205,6 +211,7 @@ class _HasLength extends Matcher {
   Description describeMismatch(Object? item, Description mismatchDescription,
       Map matchState, bool verbose) {
     try {
+      // ignore: avoid_dynamic_calls
       final length = (item as dynamic).length;
       return mismatchDescription.add('has length of ').addDescriptionOf(length);
     } catch (e) {

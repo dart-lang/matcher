@@ -3,6 +3,9 @@
 * Require Dart 3.0
 * Support latest version of `package:test_api`.
 
+* Add some explicit casts to remove some dynamic calls. There remain a large
+  number of intentionally dynamic calls.
+
 ## 0.12.16
 
 * Expand bounds on `test_api` dependency to allow the next breaking release
