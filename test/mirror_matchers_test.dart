@@ -2,10 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: deprecated_member_use_from_same_package
+// ignore_for_file:  unreachable_from_main
 
 @TestOn('vm')
+library;
 
+// ignore: deprecated_member_use_from_same_package
 import 'package:matcher/mirror_matchers.dart';
 import 'package:test/test.dart';
 

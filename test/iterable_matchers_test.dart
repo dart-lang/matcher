@@ -196,7 +196,7 @@ void main() {
           equals(2), // 2
           allOf([lessThan(3), isNot(0)]), // 1
           equals(0), // 0
-          predicate((int v) => v % 2 == 1), // 3
+          predicate((int v) => v.isOdd), // 3
           equals(5), // 5
         ]));
     shouldFail(
