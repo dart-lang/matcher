@@ -6,6 +6,7 @@ analyzer:
     inference_failure_on_collection_literal: ignore
     inference_failure_on_function_return_type: ignore
     inference_failure_on_instance_creation: ignore
+  language:
     strict-casts: false
     
 linter:
