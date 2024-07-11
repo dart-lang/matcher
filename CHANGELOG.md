@@ -1,3 +1,7 @@
+## 0.12.17-wip
+
+* Switch to `package:dart_flutter_team_lints`.
+
 ## 0.12.16+1
 
 * Require Dart 3.0
