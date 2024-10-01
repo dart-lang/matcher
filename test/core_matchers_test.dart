@@ -96,6 +96,7 @@ void main() {
 
   test('returnsNormally', () {
     shouldPass(doesNotThrow, returnsNormally);
+    shouldPass(doesNotThrowGeneric, returnsNormally);
     shouldFail(
         doesThrow,
         returnsNormally,

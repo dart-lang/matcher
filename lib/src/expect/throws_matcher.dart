@@ -83,6 +83,7 @@ class Throws extends AsyncMatcher {
 
     try {
       item as Function;
+      // ignore: avoid_dynamic_calls
       var value = item();
       if (value is Future) {
         return _matchFuture(value, 'returned a Future that emitted ');
